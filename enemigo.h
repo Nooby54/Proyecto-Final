@@ -1,0 +1,19 @@
+#ifndef ENEMIGO_H
+#define ENEMIGO_H
+
+#include "personaje.h"
+#include <QObject>
+#include <QGraphicsPixmapItem>
+
+class Enemigo: public Personaje
+{
+    Q_OBJECT
+private:
+    QTimer *timerMovimiento;
+public:
+    Enemigo();
+    void mover();
+    void lanzarProyectil();
+};
+
+#endif // ENEMIGO_H
