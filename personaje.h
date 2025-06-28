@@ -8,14 +8,15 @@
 class Personaje : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-private:
-    qreal x, y, velX, velY;
-    unsigned int dx, dy, contadorSprite, spriteX, spriteY, spriteAncho, spriteAlto;
-    QPixmap hojaSprites, sprite;
-    QSize limites;
+protected:
+    qreal x, y, velX = 0, velY = 0, velInicial, theta;
+    unsigned int dx = 0, dy = 0, contadorSprite = 0, spriteX = 0, spriteY = 0, spriteAncho = 0, spriteAlto = 0, contador = 0;
+    QPixmap hojaSprites, spriteActual;
     unsigned char vida;
+    QTimer *timerMovimiento;
 public:
     Personaje();
+    Personaje(unsigned int x, unsigned int y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta);
     void recibirDanio();
     virtual void configurarSprite(int dir);
     virtual ~Personaje();

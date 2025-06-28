@@ -8,8 +8,6 @@
 class Enemigo: public Personaje
 {
     Q_OBJECT
-private:
-    QTimer *timerMovimiento;
 public:
     Enemigo();
     void mover();
