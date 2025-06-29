@@ -3,7 +3,7 @@
 #include <QTimer>
 #include "goku.h"
 
-#define g 1.2
+#define g 0.8
 
 Goku::Goku():Personaje(200,200,64,64,25,75){
     spriteX = 0*spriteAncho;
@@ -38,9 +38,7 @@ void Goku::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Space:
         if (!salto) {
             salto = true;
-
             qreal anguloRad = qDegreesToRadians(theta);
-
             velX = velInicial * cos(anguloRad);
             velY = -velInicial * sin(anguloRad);
             if (!direccionSalto)
@@ -60,11 +58,11 @@ void Goku::movimiento(int dx, int dy){
 
 void Goku::configurarSprite(int dir){
     if(dir == 5 || dir == 6){
-        if (contador == 5)
+        if (contador == 6)
             contador = 0;
     }
-    else if(dir == 2){
-        if(contador > 2){
+    else if(dir == 2 || dir == 1){
+        if(contador > 2 || salto){
             contador = 0;
         }
     }
@@ -88,7 +86,13 @@ void Goku::actualizarMovimiento()
             velY = 0;
             velX = 0;
         }
-        configurarSprite(2);
+
+        if(direccionSalto){
+            configurarSprite(2);
+        }
+        else{
+            configurarSprite(1);
+        }
         setPos(x, y);
     }
 }
