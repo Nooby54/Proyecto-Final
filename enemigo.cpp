@@ -23,12 +23,7 @@ Enemigo::Enemigo(unsigned int x, unsigned int y):Personaje(x,y,41,94,0,0) {
 
 void Enemigo::movimiento(){
     //direccion [Baja (False), Sube (True)]
-    if(!direccion){
-        y+=10;
-    }
-    else{
-        y-=10;
-    }
+    !direccion ? y+=10 : y-=10;
 
     if(y>448){
         direccion = true;

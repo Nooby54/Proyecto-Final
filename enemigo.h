@@ -9,7 +9,7 @@ class Enemigo: public Personaje
 {
     Q_OBJECT
 private:
-    unsigned short int tiempoSprite = 0;
+    unsigned char tiempoSprite = 0;
 private slots:
     void movimiento();
 public:

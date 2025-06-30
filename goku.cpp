@@ -53,6 +53,9 @@ void Goku::keyPressEvent(QKeyEvent *event)
                 velX *= -1;
         }
         break;
+    case Qt::Key_Q:
+        configurarSprite(3);
+        break;
     default:
         QGraphicsItem::keyPressEvent(event);
     }
@@ -65,14 +68,14 @@ void Goku::movimiento(int dx, int dy){
 }
 
 void Goku::configurarSprite(int dir){
-    if(dir == 5 || dir == 6){
-        if (contador == 6)
+    if((dir == 5 || dir == 6) && (contador > 5)){
             contador = 0;
     }
-    else if(dir == 2 || dir == 1){
-        if(contador > 2 || salto){
+    else if((dir == 2 || dir == 1) && (contador > 2 || salto)){
             contador = 0;
-        }
+    }
+    else if((dir == 3) && (contador>6)){
+            contador = 0;
     }
     spriteY = dir * spriteAlto;
     spriteX = spriteAncho * contador;
@@ -96,12 +99,8 @@ void Goku::actualizarMovimiento()
             velX = 0;
         }
 
-        if(direccion){
-            configurarSprite(2);
-        }
-        else{
-            configurarSprite(1);
-        }
+        direccion ? configurarSprite(2) : configurarSprite(1);
+
         setPos(x, y);
     }
 }
