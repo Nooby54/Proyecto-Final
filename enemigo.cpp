@@ -34,13 +34,13 @@ void Enemigo::movimiento(){
     setPos(x, y);
 }
 
-void Enemigo::configurarSprite(int dir){
+void Enemigo::configurarSprite(unsigned char dir){
     if(tiempoSprite%5 == 0){
-        contador = (contador == 1) ? 0 : 1;
+        contadorSprite = (contadorSprite == 1) ? 0 : 1;
         tiempoSprite = 0;
     }
     spriteY = dir * spriteAlto;
-    spriteX = spriteAncho * contador;
+    spriteX = spriteAncho * contadorSprite;
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     spriteActual = spriteActual.scaled(123, 282, Qt::KeepAspectRatio);
     setPixmap(spriteActual);

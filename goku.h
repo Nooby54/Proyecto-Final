@@ -1,24 +1,30 @@
 #ifndef GOKU_H
 #define GOKU_H
 
+#include "kamehameha.h"
 #include "personaje.h"
+#include <QTimer>
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsView>
 
 class Goku : public Personaje
 {
     Q_OBJECT
 private:
-    bool kamehameha;
-    bool salto = false;
+    QTimer* timerKamehameha;
+    Kamehameha* kamehameha;
+    bool kamehamehaActivo = false, salto = false;
+    QGraphicsView *vista;
 private slots:
-    void actualizarMovimiento();
+    void saltoParabolico();
+    void spriteKamehameha();
 public:
-    Goku(unsigned int x, unsigned int y);
+    Goku(unsigned int x, unsigned int y, QGraphicsView *vista);
     void lanzarKamehameha();
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
-    void configurarSprite(int dir) override;
+    void configurarSprite(unsigned char dir) override;
     void movParabolico();
 };
 

@@ -14,7 +14,7 @@ private slots:
     void movimiento();
 public:
     Enemigo(unsigned int x, unsigned int y);
-    void configurarSprite(int dir) override;
+    void configurarSprite(unsigned char dir) override;
     void lanzarProyectil();
 };
 

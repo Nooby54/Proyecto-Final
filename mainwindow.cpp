@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    Goku* goku = new Goku(0,500);
+    Goku* goku = new Goku(0,450,ui->graphicsView);
     escena->addItem(goku);
-    goku->setPos(0,500);
+    goku->setPos(0,450);
     goku->setFocus();
 
     Enemigo* piccolo = new Enemigo(1200,0);
