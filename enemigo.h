@@ -8,9 +8,13 @@
 class Enemigo: public Personaje
 {
     Q_OBJECT
+private:
+    unsigned short int tiempoSprite = 0;
+private slots:
+    void movimiento();
 public:
-    Enemigo();
-    void mover();
+    Enemigo(unsigned int x, unsigned int y);
+    void configurarSprite(int dir) override;
     void lanzarProyectil();
 };
 

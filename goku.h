@@ -11,11 +11,10 @@ class Goku : public Personaje
 private:
     bool kamehameha;
     bool salto = false;
-    bool direccionSalto = true; // Izquierda (False), Derecha (True)
 private slots:
     void actualizarMovimiento();
 public:
-    Goku();
+    Goku(unsigned int x, unsigned int y);
     void lanzarKamehameha();
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
