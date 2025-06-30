@@ -24,6 +24,7 @@ Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista):Personaje(x,y,6
     vista->scene()->addItem(kamehameha);
     kamehameha->setPos(0, 0);
     kamehameha->setVisible(false);
+    connect(kamehameha, &Kamehameha::terminado, this, &Goku::reanudarMovimiento);
 
     // Timers
     timerMovimiento = new QTimer(this);
@@ -35,10 +36,10 @@ Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista):Personaje(x,y,6
     timerKamehameha->start(60);
 }
 
-void Goku::lanzarKamehameha(){}
-
 void Goku::keyPressEvent(QKeyEvent *event)
 {
+    if(kamehamehaActivo)
+        return;
     switch (event->key()) {
     case Qt::Key_A:
         if(!salto){
@@ -66,13 +67,11 @@ void Goku::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_Q:
-        if(direccion && !salto && !kamehamehaActivo){ // Corregir para poder lanzar en el aire
+        if (direccion) {
             contadorSprite = 0;
             kamehamehaActivo = true;
+            saltoPausado = true;
         }
-        break;
-    default:
-        QGraphicsItem::keyPressEvent(event);
     }
 }
 
@@ -96,7 +95,7 @@ void Goku::configurarSprite(unsigned char dir){
 
 void Goku::saltoParabolico()
 {
-    if (salto) {
+    if (salto && !saltoPausado) {
         x += velX;
         velY += g;
         y += velY;
@@ -109,7 +108,6 @@ void Goku::saltoParabolico()
         }
 
         direccion ? configurarSprite(2) : configurarSprite(1);
-
         setPos(x, y);
     }
 }
@@ -121,14 +119,18 @@ void Goku::spriteKamehameha(){
         spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
         spriteActual = spriteActual.scaled(192, 192, Qt::KeepAspectRatio);
         setPixmap(spriteActual);
-        contadorSprite++;
-        if(contadorSprite == 6){
+        if(contadorSprite < 5){
+            contadorSprite++;
+        }
+        else if(contadorSprite == 5){
             contadorSprite++;
             kamehameha->setVisible(true);
-            kamehameha->lanzar(x+180,y+192/2);
-        }
-        if(contadorSprite == 7){
-            kamehamehaActivo = false;
+            kamehameha->lanzar(x+180,y+110);
         }
     }
+}
+
+void Goku::reanudarMovimiento() {
+    saltoPausado = false;
+    kamehamehaActivo = false;
 }

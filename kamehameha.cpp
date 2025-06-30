@@ -9,7 +9,7 @@ Kamehameha::Kamehameha() {
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(spriteActual);
 
-    setTransformOriginPoint(0, spriteAlto / 2); // escalar desde el borde izquierdo
+    setTransformOriginPoint(0, spriteAlto / 3);
 }
 
 void Kamehameha::lanzar(unsigned int dx, unsigned int dy){
@@ -30,13 +30,32 @@ void Kamehameha::actualizarMovimiento()
 {
     escalaX += 0.5;
     setTransform(QTransform::fromScale(escalaX, 1));
-    if(escalaX > 10.0) escalaX = 10.0;
     if (x + spriteAncho * escalaX > 1400) {
         timerMovimiento->stop();
+        if (!timerSprite) {
+            timerSprite = new QTimer(this);
+            connect(timerSprite, &QTimer::timeout, this, [this]() {
+                if(contadorSprite == 5){
+                    contadorSprite = 0;
+                }
+                spriteY = 0 * spriteAlto;
+                spriteX = spriteAncho * contadorSprite;
+                spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
+                setPixmap(spriteActual);
+                setTransform(QTransform::fromScale(escalaX, 1));
+                contadorSprite++;
+            });
+        }
+        timerSprite->start(100);
+
         QTimer::singleShot(800, this, [this]() {
+            contadorSprite = 0;
             escalaX = 1.0;
             setTransform(QTransform::fromScale(1.0, 1));
             setVisible(false);
+            if (timerSprite) timerSprite->stop();
+            emit terminado();
+
         });
         // Verificar las colisiones
     }

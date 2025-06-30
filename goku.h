@@ -14,18 +14,17 @@ class Goku : public Personaje
 private:
     QTimer* timerKamehameha;
     Kamehameha* kamehameha;
-    bool kamehamehaActivo = false, salto = false;
+    bool kamehamehaActivo = false, salto = false, saltoPausado = false;
     QGraphicsView *vista;
 private slots:
     void saltoParabolico();
     void spriteKamehameha();
+    void reanudarMovimiento();
 public:
     Goku(unsigned int x, unsigned int y, QGraphicsView *vista);
-    void lanzarKamehameha();
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
     void configurarSprite(unsigned char dir) override;
-    void movParabolico();
 };
 
 #endif // GOKU_H
