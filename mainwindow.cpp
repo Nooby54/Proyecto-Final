@@ -17,15 +17,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    Goku* goku = new Goku(0,450,ui->graphicsView);
+    vector<Enemigo*> enemigos;
+    enemigos.push_back(new Enemigo(1200,0));
+    escena->addItem(enemigos[0]);
+    enemigos[0]->setPos(1200,0);
+
+    Goku* goku = new Goku(0,450,ui->graphicsView, enemigos);
     escena->addItem(goku);
     goku->setPos(0,450);
     goku->setFocus();
-
-    Enemigo* piccolo = new Enemigo(1200,0);
-    escena->addItem(piccolo);
-    piccolo->setPos(1200,0);
-
 }
 
 MainWindow::~MainWindow()

@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>sprites/Kamehameha (128x64).png</file>
+        <file>sprites/Kamehameha (192x64).png</file>
     </qresource>
 </RCC>

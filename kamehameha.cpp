@@ -1,15 +1,16 @@
 #include "kamehameha.h"
+#include "enemigo.h"
 
 #include <QTimer>
 
-Kamehameha::Kamehameha() {
-    hojaSprites.load(":/sprites/Kamehameha (128x64).png");
+Kamehameha::Kamehameha(vector<Enemigo*>& enemigos):enemigos(enemigos) {
+    hojaSprites.load(":/sprites/Kamehameha (192x64).png");
     spriteX = 0;
     spriteY = 0;
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(spriteActual);
 
-    setTransformOriginPoint(0, spriteAlto / 3);
+    setTransformOriginPoint(0, spriteAlto / 2);
 }
 
 void Kamehameha::lanzar(unsigned int dx, unsigned int dy){
@@ -28,6 +29,11 @@ void Kamehameha::lanzar(unsigned int dx, unsigned int dy){
 
 void Kamehameha::actualizarMovimiento()
 {
+    for (Enemigo* enemigo : enemigos) {
+        if (this->collidesWithItem(enemigo)) {
+            enemigo->recibirDanio();
+        }
+    }
     escalaX += 0.5;
     setTransform(QTransform::fromScale(escalaX, 1));
     if (x + spriteAncho * escalaX > 1400) {
@@ -57,6 +63,5 @@ void Kamehameha::actualizarMovimiento()
             emit terminado();
 
         });
-        // Verificar las colisiones
     }
 }

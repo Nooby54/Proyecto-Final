@@ -6,7 +6,7 @@
 
 #define g 0.5
 
-Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista):Personaje(x,y,64,64,15,70),vista(vista){
+Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*>& enemigos):Personaje(x,y,64,64,15,70),vista(vista),enemigos(enemigos){
     spriteX = 0*spriteAncho;
     spriteY = 4*spriteAlto;
     dy = y;
@@ -20,7 +20,7 @@ Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista):Personaje(x,y,6
     setFocus();
 
     // Kamehameha
-    kamehameha = new Kamehameha();
+    kamehameha = new Kamehameha(enemigos);
     vista->scene()->addItem(kamehameha);
     kamehameha->setPos(0, 0);
     kamehameha->setVisible(false);
@@ -76,7 +76,16 @@ void Goku::keyPressEvent(QKeyEvent *event)
 }
 
 void Goku::movimiento(int dx, int dy){
-    x+=dx;
+    if(x < 0){
+        x = 920-spriteAncho;
+    }
+    else if(x+spriteAncho > 920){
+        x = 0;
+    }
+    else{
+        x+=dx;
+    }
+
     y+=dy;
     setPos(x,y);
 }

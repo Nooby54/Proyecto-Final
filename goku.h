@@ -16,12 +16,13 @@ private:
     Kamehameha* kamehameha;
     bool kamehamehaActivo = false, salto = false, saltoPausado = false;
     QGraphicsView *vista;
+    vector<Enemigo*>& enemigos;
 private slots:
     void saltoParabolico();
     void spriteKamehameha();
     void reanudarMovimiento();
 public:
-    Goku(unsigned int x, unsigned int y, QGraphicsView *vista);
+    Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*>& enemigos);
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
     void configurarSprite(unsigned char dir) override;
