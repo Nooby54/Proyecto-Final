@@ -15,6 +15,8 @@ protected:
     unsigned char vida = 255;
     QTimer *timerMovimiento;
     bool direccion = true;
+signals:
+    void actualizarVida(unsigned char vida);
 public:
     Personaje();
     Personaje(unsigned int x, unsigned int y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta);

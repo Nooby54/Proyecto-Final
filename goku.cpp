@@ -77,10 +77,10 @@ void Goku::keyPressEvent(QKeyEvent *event)
 
 void Goku::movimiento(int dx, int dy){
     if(x < 0){
-        x = 920-spriteAncho;
+        x = 1;
     }
     else if(x+spriteAncho > 920){
-        x = 0;
+        x = 920-spriteAncho;
     }
     else{
         x+=dx;
@@ -114,6 +114,17 @@ void Goku::saltoParabolico()
             salto = false;
             velY = 0;
             velX = 0;
+        }
+
+        if(x+spriteAncho > 920){
+            direccion = false;
+            x = 920-spriteAncho;
+            velX*=-1;
+        }
+        else if(x < 0){
+            direccion = true;
+            x = 0;
+            velX*=-1;
         }
 
         direccion ? configurarSprite(2) : configurarSprite(1);

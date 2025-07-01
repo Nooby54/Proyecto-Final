@@ -28,7 +28,7 @@ void Enemigo::movimiento(){
     if(y>448){
         direccion = true;
     }
-    else if(y<1){
+    else if(y<100){
         direccion = false;
     }
     setPos(x, y);
@@ -47,7 +47,8 @@ void Enemigo::configurarSprite(unsigned char dir){
 }
 
 void Enemigo::recibirDanio(){
-    vida-=10;
+    vida-=5;
     configurarSprite(0);
+    emit actualizarVida(vida);
 }
 void Enemigo::lanzarProyectil(){}

@@ -18,7 +18,7 @@ private:
     QPixmap hojaSprites, spriteActual;
     QTimer* timerMovimiento;
     QTimer* timerSprite;
-    vector<Enemigo*> enemigos;
+    vector<Enemigo*>& enemigos;
 private slots:
     void actualizarMovimiento();
 signals:
@@ -26,7 +26,6 @@ signals:
 public:
     Kamehameha(vector<Enemigo*>& enemigos);
     void lanzar(unsigned int x, unsigned int y);
-    void hacerDanio(Enemigo* enemigo);
 };
 
 #endif // KAMEHAMEHA_H
