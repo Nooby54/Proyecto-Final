@@ -15,10 +15,10 @@ Enemigo::Enemigo(unsigned int x, unsigned int y):Personaje(x,y,41,94,0,0) {
     connect(timerMovimiento, &QTimer::timeout, this, [=]()
             {
                 movimiento();
-                configurarSprite(0);
+                configurarSprite(1);
                 tiempoSprite++;
             });
-    timerMovimiento->start(40);
+    timerMovimiento->start(45);
 }
 
 void Enemigo::movimiento(){
@@ -44,5 +44,10 @@ void Enemigo::configurarSprite(unsigned char dir){
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     spriteActual = spriteActual.scaled(123, 282, Qt::KeepAspectRatio);
     setPixmap(spriteActual);
+}
+
+void Enemigo::recibirDanio(){
+    vida-=10;
+    configurarSprite(0);
 }
 void Enemigo::lanzarProyectil(){}

@@ -18,7 +18,7 @@ protected:
 public:
     Personaje();
     Personaje(unsigned int x, unsigned int y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta);
-    void recibirDanio();
+    virtual void recibirDanio();
     virtual void configurarSprite(unsigned char dir);
     virtual ~Personaje();
 };

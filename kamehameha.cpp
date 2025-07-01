@@ -29,11 +29,6 @@ void Kamehameha::lanzar(unsigned int dx, unsigned int dy){
 
 void Kamehameha::actualizarMovimiento()
 {
-    for (Enemigo* enemigo : enemigos) {
-        if (this->collidesWithItem(enemigo)) {
-            enemigo->recibirDanio();
-        }
-    }
     escalaX += 0.5;
     setTransform(QTransform::fromScale(escalaX, 1));
     if (x + spriteAncho * escalaX > 1400) {
@@ -63,5 +58,10 @@ void Kamehameha::actualizarMovimiento()
             emit terminado();
 
         });
+    }
+    for (Enemigo* enemigo : enemigos) {
+        if (this->collidesWithItem(enemigo)) {
+            enemigo->Enemigo::recibirDanio();
+        }
     }
 }

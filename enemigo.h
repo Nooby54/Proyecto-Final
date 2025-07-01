@@ -10,11 +10,13 @@ class Enemigo: public Personaje
     Q_OBJECT
 private:
     unsigned char tiempoSprite = 0;
+    bool danio = false;
 private slots:
     void movimiento();
 public:
     Enemigo(unsigned int x, unsigned int y);
     void configurarSprite(unsigned char dir) override;
+    void recibirDanio() override;
     void lanzarProyectil();
 };
 
