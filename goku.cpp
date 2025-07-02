@@ -19,13 +19,6 @@ Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
-    // Kamehameha
-    kamehameha = new Kamehameha(enemigos);
-    vista->scene()->addItem(kamehameha);
-    kamehameha->setPos(0, 0);
-    kamehameha->setVisible(false);
-    connect(kamehameha, &Kamehameha::terminado, this, &Goku::reanudarMovimiento);
-
     // Timers
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &Goku::saltoParabolico);
@@ -42,36 +35,36 @@ void Goku::keyPressEvent(QKeyEvent *event)
         return;
     switch (event->key()) {
     case Qt::Key_A:
-        if(!salto){
             direccion = false;
             movimiento(-10,0);
             configurarSprite(5);
-        }
         break;
     case Qt::Key_D:
-        if(!salto){
             movimiento(10,0);
             direccion = true;
             configurarSprite(6);
-        }
         break;
     case Qt::Key_Space:
         //direccion [Izquierda (False), Derecha (True)]
-        if (!salto) {
-            salto = true;
-            qreal anguloRad = qDegreesToRadians(theta);
-            velX = velInicial * cos(anguloRad);
-            velY = -velInicial * sin(anguloRad);
-            if (!direccion)
-                velX *= -1;
-        }
+        salto = true;
+        velX = velInicial * cos(qDegreesToRadians(theta));
+        velY = -velInicial * sin(qDegreesToRadians(theta));
+        if (!direccion){
+            velX *= -1;}
+
         break;
     case Qt::Key_Q:
         if (direccion) {
+            kamehameha = new Kamehameha(enemigos);
+            vista->scene()->addItem(kamehameha);
+            kamehameha->setPos(0, 0);
+            kamehameha->setVisible(false);
+            connect(kamehameha, &Kamehameha::terminado, this, &Goku::reanudarMovimiento);
             contadorSprite = 0;
             kamehamehaActivo = true;
             saltoPausado = true;
         }
+        break;
     }
 }
 
@@ -85,7 +78,6 @@ void Goku::movimiento(int dx, int dy){
     else{
         x+=dx;
     }
-
     y+=dy;
     setPos(x,y);
 }
@@ -107,7 +99,13 @@ void Goku::saltoParabolico()
     if (salto && !saltoPausado) {
         x += velX;
         velY += g;
-        y += velY;
+        if(y < 0){
+            y = 0;
+            velY = 0;
+        }
+        else{
+            y += velY;
+        }
 
         if (velY > 0 && y >= dy) {
             y = dy;
@@ -153,4 +151,6 @@ void Goku::spriteKamehameha(){
 void Goku::reanudarMovimiento() {
     saltoPausado = false;
     kamehamehaActivo = false;
+    delete kamehameha;
+    kamehameha = nullptr;
 }

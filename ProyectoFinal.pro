@@ -36,4 +36,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     goku.qrc \
     kamehameha.qrc \
+    obstaculo.qrc \
     piccolo.qrc

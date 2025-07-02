@@ -45,10 +45,6 @@ void Kamehameha::actualizarMovimiento()
         timerSprite->start(100);
 
         QTimer::singleShot(800, this, [this]() {
-            contadorSprite = 0;
-            escalaX = 1.0;
-            setTransform(QTransform::fromScale(1.0, 1));
-            setVisible(false);
             if (timerSprite) timerSprite->stop();
             emit terminado();
         });
@@ -60,3 +56,5 @@ void Kamehameha::actualizarMovimiento()
         }
     }
 }
+
+Kamehameha::~Kamehameha(){}

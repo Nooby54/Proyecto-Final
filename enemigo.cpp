@@ -51,4 +51,5 @@ void Enemigo::recibirDanio(){
     configurarSprite(0);
     emit actualizarVida(vida);
 }
+
 void Enemigo::lanzarProyectil(){}

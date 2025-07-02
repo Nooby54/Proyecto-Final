@@ -26,6 +26,7 @@ signals:
 public:
     Kamehameha(vector<Enemigo*>& enemigos);
     void lanzar(unsigned int x, unsigned int y);
+    ~Kamehameha();
 };
 
 #endif // KAMEHAMEHA_H
