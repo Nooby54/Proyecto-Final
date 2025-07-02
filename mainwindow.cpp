@@ -4,6 +4,8 @@
 #include "obstaculo.h"
 #include "ui_mainwindow.h"
 
+#include <QRandomGenerator>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -27,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     escena->addItem(enemigos[0]);
     enemigos[0]->setPos(1200,100);
 
+    // Goku
     Goku* goku = new Goku(0,450,ui->graphicsView, enemigos);
     escena->addItem(goku);
     goku->setPos(0,450);
@@ -41,12 +44,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->vidaGoku->setFixedHeight(30);
     ui->vidaGoku->setStyleSheet("QProgressBar{border: 2px solid black; background-color: rgba(255, 255, 255, 0); border-radius: 5px;} QProgressBar::chunk{background-color: orange;}");
 
-    // Proyectil de prueba
+    // Proyectiles de prueba
     vector<Obstaculo*> proyectiles;
-    for(int i = 0; i < 5; i++){
-        proyectiles.push_back(new Obstaculo(ui->graphicsView, 500, enemigos[0]->pos().x(),enemigos[0]->pos().y()+i*100,200));
+    for(int i = 0; i < 50; i++){
+        int velAleatoria = QRandomGenerator::global()->bounded(100, 401);    // 100 a 400
+        int anguloAleatorio = QRandomGenerator::global()->bounded(120, 221); // 120 a 220
+        int gravedadAleatoria = QRandomGenerator::global()->bounded(30, 51);   // 30 a 50
+
+        proyectiles.push_back(new Obstaculo(velAleatoria, enemigos[0]->pos().x(), enemigos[0]->pos().y() + i * 100, anguloAleatorio, gravedadAleatoria));
         escena->addItem(proyectiles[i]);
-        proyectiles[i]->setPos(enemigos[0]->pos().x(),enemigos[0]->pos().y()+i*100);
+        proyectiles[i]->setPos(enemigos[0]->pos().x(), enemigos[0]->pos().y() + i * 100);
         proyectiles[i]->iniMov();
     }
 }

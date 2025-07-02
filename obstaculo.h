@@ -1,29 +1,25 @@
 #ifndef OBSTACULO_H
 #define OBSTACULO_H
 
-#include "goku.h"
 #include <QObject>
+#include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
 class Obstaculo : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-public:
-    Obstaculo(QGraphicsView *view, float velIn,qreal xIn, qreal yIn, float theta);
 
-    void moveBy(int dx, int dy);
+public:
+    Obstaculo(float velIn,qreal xIn, qreal yIn, float theta, unsigned int g);
     void movParabolico(float* dt);
     void iniMov();
 
 private:
-    qreal x, y, velX, velY, angulo, velInicial;
-    unsigned int dx, dy, contadorSprite, spriteX, spriteY, spriteAncho=32, spriteAlto=32;
+    qreal x, y, vX, vY, angulo, velInicial, velIn, theta, xIn, yIn, tiempo=0;
+    unsigned int dx, dy, contadorSprite, spriteX=0, spriteY=0, spriteAncho=32, spriteAlto=32, g;
     QPixmap hojaSprites, spriteActual;
-
-    qreal posX,posY,velIn,theta,dirX,dirY,xIn,yIn,tiempo;
-    QSize viewRect;
-    QTimer *timerMovPar;
-
+    QTimer *timerMovimiento;
+    bool dirX = true, dirY = true;
 
 private slots:
     void movParabolico();

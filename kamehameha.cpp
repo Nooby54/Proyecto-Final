@@ -5,21 +5,18 @@
 
 Kamehameha::Kamehameha(vector<Enemigo*>& enemigos):enemigos(enemigos) {
     hojaSprites.load(":/sprites/Kamehameha (192x64).png");
-    spriteX = 0;
-    spriteY = 0;
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(spriteActual);
     setTransformOriginPoint(0, spriteAlto / 2);
 
     timerMovimiento = new QTimer(this);
-    connect(timerMovimiento, &QTimer::timeout, this, &Kamehameha::actualizarMovimiento);
+    connect(timerMovimiento, &QTimer::timeout, this, &Kamehameha::mover);
 
     timerSprite = new QTimer(this);
     connect(timerSprite, &QTimer::timeout, this, [this]() {
         if(contadorSprite == 5){
             contadorSprite = 0;
         }
-        spriteY = 0 * spriteAlto;
         spriteX = spriteAncho * contadorSprite;
         spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
         setPixmap(spriteActual);
@@ -36,7 +33,7 @@ void Kamehameha::lanzar(unsigned int dx, unsigned int dy){
     timerMovimiento->start(15);
 }
 
-void Kamehameha::actualizarMovimiento()
+void Kamehameha::mover()
 {
     escalaX += 0.5;
     setTransform(QTransform::fromScale(escalaX, 1));
