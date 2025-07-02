@@ -42,9 +42,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->vidaGoku->setStyleSheet("QProgressBar{border: 2px solid black; background-color: rgba(255, 255, 255, 0); border-radius: 5px;} QProgressBar::chunk{background-color: orange;}");
 
     // Proyectil de prueba
-    Obstaculo* proyectil = new Obstaculo();
-    escena->addItem(proyectil);
-    proyectil->setPos(100,500);
+    vector<Obstaculo*> proyectiles;
+    for(int i = 0; i < 5; i++){
+        proyectiles.push_back(new Obstaculo(ui->graphicsView, 500, enemigos[0]->pos().x(),enemigos[0]->pos().y()+i*100,200));
+        escena->addItem(proyectiles[i]);
+        proyectiles[i]->setPos(enemigos[0]->pos().x(),enemigos[0]->pos().y()+i*100);
+        proyectiles[i]->iniMov();
+    }
 }
 
 MainWindow::~MainWindow()
