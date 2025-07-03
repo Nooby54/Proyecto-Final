@@ -1,5 +1,4 @@
 #include <QKeyEvent>
-#include <QDebug>
 #include <QTimer>
 #include "goku.h"
 #include "qgraphicsscene.h"
@@ -72,8 +71,8 @@ void Goku::movimiento(int dx, int dy){
     if(x < 0){
         x = 1;
     }
-    else if(x+spriteAncho > 920){
-        x = 920-spriteAncho;
+    else if(x+spriteAncho > 1000){
+        x = 1000-spriteAncho;
     }
     else{
         x+=dx;
@@ -114,9 +113,9 @@ void Goku::saltoParabolico()
             velX = 0;
         }
 
-        if(x+spriteAncho > 920){
+        if(x+spriteAncho > 1000){
             direccion = false;
-            x = 920-spriteAncho;
+            x = 1000-spriteAncho;
             velX*=-1;
         }
         else if(x < 0){
@@ -153,4 +152,10 @@ void Goku::reanudarMovimiento() {
     kamehamehaActivo = false;
     delete kamehameha;
     kamehameha = nullptr;
+}
+
+void Goku::recibirDanio(){
+    vida-=15;
+    //configurarSprite(0); // Colocar sprite gris de daño
+    emit actualizarVida(vida);
 }

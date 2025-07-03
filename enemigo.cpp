@@ -1,8 +1,9 @@
 #include "enemigo.h"
 #include <QTimer>
+#include <QRandomGenerator>
 
-//unsigned int x, unsigned int y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta
-Enemigo::Enemigo(unsigned int x, unsigned int y):Personaje(x,y,41,94,0,0) {
+
+Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo *> &proyectiles, Goku* goku):Personaje(x,y,41,94,0,0), proyectiles(proyectiles),goku(goku) {
     hojaSprites.load(":/sprites/Piccolo (41x94).png");
     spriteX = 0*spriteAncho;
     spriteY = 0*spriteAlto;
@@ -19,6 +20,10 @@ Enemigo::Enemigo(unsigned int x, unsigned int y):Personaje(x,y,41,94,0,0) {
                 tiempoSprite++;
             });
     timerMovimiento->start(45);
+
+    timerProyectil = new QTimer(this);
+    connect(timerProyectil, &QTimer::timeout, this, &Enemigo::disparar);
+    timerProyectil->start(500);
 }
 
 void Enemigo::movimiento(){
@@ -52,4 +57,14 @@ void Enemigo::recibirDanio(){
     emit actualizarVida(vida);
 }
 
-void Enemigo::lanzarProyectil(){}
+void Enemigo::disparar(){
+    int velAleatoria = QRandomGenerator::global()->bounded(100, 401);
+    int anguloAleatorio = QRandomGenerator::global()->bounded(120, 221);
+    int gravedadAleatoria = QRandomGenerator::global()->bounded(30, 51);
+
+    Obstaculo* nuevo = new Obstaculo(goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria);
+    proyectiles.push_back(nuevo);
+    this->scene()->addItem(nuevo);
+    nuevo->setPos(x, y + (spriteAlto/2));
+    nuevo->mover();
+}

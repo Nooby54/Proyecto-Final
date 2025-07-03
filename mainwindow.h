@@ -21,5 +21,6 @@ public:
 private:
     Ui::MainWindow *ui;
     std::vector<Enemigo*> enemigos;
+    std::list<Obstaculo*> proyectiles;
 };
 #endif // MAINWINDOW_H

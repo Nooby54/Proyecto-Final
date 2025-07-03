@@ -29,6 +29,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
     void configurarSprite(unsigned char dir) override;
+    void recibirDanio() override;
 };
 
 #endif // GOKU_H
