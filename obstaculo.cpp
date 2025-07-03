@@ -2,14 +2,20 @@
 #include "goku.h"
 #include <QTimer>
 
-Obstaculo::Obstaculo(Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g)
+Obstaculo::Obstaculo(Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo)
     : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn),yIn(yIn),g(g),goku(goku) {
     hojaSprites.load(":/sprites/proyectil (32x32).png");
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(spriteActual);
 
+    if(modo){
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, [=]() { movimientoParabolico(); });
+    }
+    else{
+        timerMovimiento = new QTimer(this);
+        connect(timerMovimiento, &QTimer::timeout, this, [=]() { movimiento(); });
+    }
     this->theta = qDegreesToRadians(theta);
 }
 
@@ -43,11 +49,27 @@ void Obstaculo::movimientoParabolico()
     setPos(x, y);
     tiempo += 0.1;
 
-    if (collidesWithItem(goku)) {
-        goku->recibirDanio();
+    if (collidesWithItem(goku) || (collidesWithItem(goku->getKamehameha()) && goku->getkamehamehaActivo())) {
+        if(!goku->getkamehamehaActivo()){
+            goku->recibirDanio();
+        }
         timerMovimiento->stop();
         this->deleteLater();
         return;
     }
 }
 
+void Obstaculo::movimiento(){
+    x = xIn - velInicial*tiempo;
+    setPos(x, y);
+    tiempo+=0.1;
+
+    if (collidesWithItem(goku) || (collidesWithItem(goku->getKamehameha()) && goku->getkamehamehaActivo())) {
+        if(!goku->getkamehamehaActivo()){
+            goku->recibirDanio();
+        }
+        timerMovimiento->stop();
+        this->deleteLater();
+        return;
+    }
+}

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sprites/Goku (64x64).png</file>
+        <file>sprites/Kamehameha (192x64).png</file>
+        <file>sprites/proyectil (32x32).png</file>
+        <file>sprites/Piccolo (41x94).png</file>
+    </qresource>
+</RCC>

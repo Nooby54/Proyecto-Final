@@ -159,3 +159,11 @@ void Goku::recibirDanio(){
     //configurarSprite(0); // Colocar sprite gris de daño
     emit actualizarVida(vida);
 }
+
+bool Goku::getkamehamehaActivo() const{
+    return kamehamehaActivo;
+}
+
+Kamehameha* Goku::getKamehameha() const{
+    return kamehameha;
+}

@@ -23,7 +23,7 @@ Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo *> &proyect
 
     timerProyectil = new QTimer(this);
     connect(timerProyectil, &QTimer::timeout, this, &Enemigo::disparar);
-    timerProyectil->start(500);
+    timerProyectil->start(300);
 }
 
 void Enemigo::movimiento(){
@@ -61,8 +61,9 @@ void Enemigo::disparar(){
     int velAleatoria = QRandomGenerator::global()->bounded(100, 401);
     int anguloAleatorio = QRandomGenerator::global()->bounded(120, 221);
     int gravedadAleatoria = QRandomGenerator::global()->bounded(30, 51);
+    bool modo = QRandomGenerator::global()->bounded(0,2);
 
-    Obstaculo* nuevo = new Obstaculo(goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria);
+    Obstaculo* nuevo = new Obstaculo(goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo);
     proyectiles.push_back(nuevo);
     this->scene()->addItem(nuevo);
     nuevo->setPos(x, y + (spriteAlto/2));

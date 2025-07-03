@@ -14,6 +14,7 @@ SOURCES += \
     kamehameha.cpp \
     main.cpp \
     mainwindow.cpp \
+    nivel.cpp \
     obstaculo.cpp \
     personaje.cpp
 
@@ -22,6 +23,7 @@ HEADERS += \
     goku.h \
     kamehameha.h \
     mainwindow.h \
+    nivel.h \
     obstaculo.h \
     personaje.h
 
@@ -34,7 +36,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    goku.qrc \
-    kamehameha.qrc \
-    obstaculo.qrc \
-    piccolo.qrc
+    backgrounds.qrc \
+    sprites.qrc

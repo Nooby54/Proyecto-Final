@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "enemigo.h"
+#include "nivel.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -20,7 +20,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    std::vector<Enemigo*> enemigos;
-    std::list<Obstaculo*> proyectiles;
+    Nivel* nivel;
 };
 #endif // MAINWINDOW_H

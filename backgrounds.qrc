@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>sprites/Goku (64x64).png</file>
+        <file>sprites/backgrounds/level2.png</file>
     </qresource>
 </RCC>

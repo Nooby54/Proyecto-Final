@@ -14,7 +14,7 @@ class Goku : public Personaje
 
 private:
     QTimer* timerKamehameha;
-    Kamehameha* kamehameha;
+    Kamehameha* kamehameha = nullptr;
     bool kamehamehaActivo = false, salto = false, saltoPausado = false;
     QGraphicsView *vista;
     vector<Enemigo*>& enemigos;
@@ -30,6 +30,8 @@ public:
     void movimiento(int dx, int dy);
     void configurarSprite(unsigned char dir) override;
     void recibirDanio() override;
+    bool getkamehamehaActivo() const;
+    Kamehameha* getKamehameha() const;
 };
 
 #endif // GOKU_H
