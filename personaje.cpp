@@ -8,4 +8,5 @@ Personaje::Personaje(unsigned int x, unsigned int y, unsigned int spriteAncho, u
 void Personaje::recibirDanio(){}
 
 void Personaje::configurarSprite(unsigned char dir){}
+
 Personaje::~Personaje(){}

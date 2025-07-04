@@ -11,10 +11,6 @@ class Obstaculo : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
-public:
-    Obstaculo(Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
-    void mover();
-
 private:
     qreal x, y, vX, vY, angulo, velInicial, theta, xIn, yIn, tiempo=0;
     unsigned int dx, dy, contadorSprite, spriteX=0, spriteY=0, spriteAncho=32, spriteAlto=32, g;
@@ -26,6 +22,10 @@ private:
 private slots:
     void movimientoParabolico();
     void movimiento();
+
+public:
+    Obstaculo(Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
+    void mover();
 };
 
 #endif // OBSTACULO_H

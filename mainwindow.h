@@ -14,12 +14,12 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
     Nivel* nivel;
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 };
 #endif // MAINWINDOW_H

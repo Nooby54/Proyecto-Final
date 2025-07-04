@@ -13,7 +13,7 @@ class Goku : public Personaje
     Q_OBJECT
 
 private:
-    QTimer* timerKamehameha;
+    QTimer *timerKamehameha, *timerCooldown;
     Kamehameha* kamehameha = nullptr;
     bool kamehamehaActivo = false, salto = false, saltoPausado = false;
     QGraphicsView *vista;
@@ -23,6 +23,9 @@ private slots:
     void saltoParabolico();
     void spriteKamehameha();
     void reanudarMovimiento();
+
+signals:
+    void derrotado();
 
 public:
     Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*>& enemigos);

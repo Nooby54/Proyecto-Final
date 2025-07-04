@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>sprites/backgrounds/level2.png</file>
+        <file>sprites/backgrounds/level1.png</file>
     </qresource>
 </RCC>

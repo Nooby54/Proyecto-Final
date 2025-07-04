@@ -12,7 +12,6 @@ class Enemigo: public Personaje
 
 private:
     unsigned char tiempoSprite = 0;
-    bool danio = false;
     std::list<Obstaculo*>& proyectiles;
     QTimer* timerProyectil;
     Goku* goku;

@@ -7,7 +7,7 @@
 
 Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*>& enemigos):Personaje(x,y,64,64,15,70),vista(vista),enemigos(enemigos){
     spriteX = 0*spriteAncho;
-    spriteY = 4*spriteAlto;
+    spriteY = 3*spriteAlto;
     dy = y;
     dx = x;
 
@@ -26,6 +26,9 @@ Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*
     timerKamehameha = new QTimer(this);
     connect(timerKamehameha, &QTimer::timeout, this, &Goku::spriteKamehameha);
     timerKamehameha->start(60);
+
+    timerCooldown = new QTimer(this);
+    timerCooldown->setSingleShot(true);
 }
 
 void Goku::keyPressEvent(QKeyEvent *event)
@@ -36,12 +39,12 @@ void Goku::keyPressEvent(QKeyEvent *event)
     case Qt::Key_A:
             direccion = false;
             movimiento(-10,0);
-            configurarSprite(5);
+            configurarSprite(4);
         break;
     case Qt::Key_D:
             movimiento(10,0);
             direccion = true;
-            configurarSprite(6);
+            configurarSprite(5);
         break;
     case Qt::Key_Space:
         //direccion [Izquierda (False), Derecha (True)]
@@ -53,7 +56,7 @@ void Goku::keyPressEvent(QKeyEvent *event)
 
         break;
     case Qt::Key_Q:
-        if (direccion) {
+        if (direccion && !(timerCooldown->isActive())) {
             kamehameha = new Kamehameha(enemigos);
             vista->scene()->addItem(kamehameha);
             kamehameha->setPos(0, 0);
@@ -82,7 +85,7 @@ void Goku::movimiento(int dx, int dy){
 }
 
 void Goku::configurarSprite(unsigned char dir){
-    if(((dir == 5 || dir == 6) && (contadorSprite > 5)) || ((dir == 2 || dir == 1) && (contadorSprite > 2 || salto))){
+    if(((dir == 4 || dir == 5) && (contadorSprite > 5)) || ((dir == 0 || dir == 1) && (contadorSprite > 1 || salto)) || (dir == 6 && contadorSprite > 0)){
         contadorSprite = 0;
     }
     spriteY = dir * spriteAlto;
@@ -124,14 +127,14 @@ void Goku::saltoParabolico()
             velX*=-1;
         }
 
-        direccion ? configurarSprite(2) : configurarSprite(1);
+        direccion ? configurarSprite(1) : configurarSprite(0);
         setPos(x, y);
     }
 }
 
 void Goku::spriteKamehameha(){
     if(kamehamehaActivo){
-        spriteY = 3 * spriteAlto;
+        spriteY = 2 * spriteAlto;
         spriteX = spriteAncho * contadorSprite;
         spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
         spriteActual = spriteActual.scaled(192, 192, Qt::KeepAspectRatio);
@@ -152,12 +155,21 @@ void Goku::reanudarMovimiento() {
     kamehamehaActivo = false;
     delete kamehameha;
     kamehameha = nullptr;
+    timerCooldown->start(1500);
 }
 
 void Goku::recibirDanio(){
-    vida-=15;
-    //configurarSprite(0); // Colocar sprite gris de daño
-    emit actualizarVida(vida);
+    configurarSprite(6);
+    if(vida < 1){
+        timerMovimiento->stop();
+        timerCooldown->stop();
+        timerKamehameha->stop();
+        emit derrotado();
+        emit actualizarVida(0);
+    }else{
+        vida-=15;
+        emit actualizarVida(vida);
+    }
 }
 
 bool Goku::getkamehamehaActivo() const{

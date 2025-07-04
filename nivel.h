@@ -12,12 +12,17 @@
 
 class Nivel: public QObject {
     Q_OBJECT
+
 private:
     unsigned short int id;
     Goku* goku = nullptr;
     std::vector<Enemigo*> enemigos;
     std::list<Obstaculo*> proyectiles;
     QGraphicsScene* escena;
+    QTimer *timerEscena;
+
+private slots:
+    void finalizarNivel();
 
 public:
     Nivel(int id);
