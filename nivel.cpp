@@ -13,7 +13,8 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
     connect(timerEscena, &QTimer::timeout, this, [this]() {
         escena->update();
     });
-    timerEscena->start(1000);
+    timerEscena->start(32);
+
 
     // Modo de juego
     if(id == 1){
@@ -74,7 +75,7 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
         escena->addItem(goku);
         goku->setFocus();
 
-        Enemigo* enemigo = new Enemigo(1200, 100, proyectiles, goku);
+        Enemigo* enemigo = new Enemigo(1200, 100, proyectiles, goku, [this](Proyectil* p) { eliminarProyectil(p); });
         escena->addItem(enemigo);
         enemigos.push_back(enemigo);
 
@@ -115,4 +116,9 @@ void Nivel::finalizarNivel() {
             escena->removeItem(item);
         }
     }
+}
+
+void Nivel::eliminarProyectil(Proyectil* p) {
+    proyectiles.remove(p);
+    p->deleteLater();
 }

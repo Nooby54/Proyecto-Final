@@ -16,16 +16,18 @@ private:
     unsigned int dx, dy, contadorSprite, spriteX=0, spriteY=0, spriteAncho=32, spriteAlto=32, g;
     QPixmap hojaSprites, spriteActual;
     QTimer *timerMovimiento;
-    bool dirX = true, dirY = true;
+    bool dirX = true, dirY = true, modo = true;
     Goku* goku;
+    std::function<void(Proyectil*)> eliminarProyectil;
 
+    void verificarColision();
 private slots:
-    void movimientoParabolico();
     void movimiento();
 
 public:
-    Proyectil(Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
+    Proyectil(std::function<void(Proyectil*)> eliminarProyectil, Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
     void mover();
+    ~Proyectil();
 };
 
 #endif // PROYECTIL_H

@@ -15,13 +15,14 @@ private:
     std::list<Proyectil*>& proyectiles;
     QTimer* timerProyectil;
     Goku* goku;
+    std::function<void(Proyectil*)> eliminarProyectil;
 
 private slots:
     void movimiento();
     void disparar();
 
 public:
-    Enemigo(unsigned int x, unsigned int y, std::list<Proyectil*>& proyectiles, Goku* goku);
+    Enemigo(unsigned int x, unsigned int y, std::list<Proyectil*>& proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil);
     void configurarSprite(unsigned char dir) override;
     void recibirDanio() override;
 };

@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // Nivel 2, de prueba
-    nivel = new Nivel(1);
+    nivel = new Nivel(2);
     nivel->iniciarNivel(ui);
 
     // Diseño barras de vida

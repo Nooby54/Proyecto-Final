@@ -28,6 +28,7 @@ private slots:
 public:
     Nivel(int id);
     void iniciarNivel(Ui::MainWindow *ui);
+    void eliminarProyectil(Proyectil* p);
 };
 
 #endif // NIVEL_H

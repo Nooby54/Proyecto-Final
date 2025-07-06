@@ -2,7 +2,8 @@
 #include <QTimer>
 #include <QRandomGenerator>
 
-Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Proyectil *> &proyectiles, Goku* goku):Personaje(x,y,41,94,0,0), proyectiles(proyectiles),goku(goku) {
+Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Proyectil *> &proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil)
+    : Personaje(x,y,41,94,0,0), proyectiles(proyectiles), goku(goku),eliminarProyectil(eliminarProyectil) {
     hojaSprites.load(":/sprites/Piccolo (41x94).png");
     spriteX = 0*spriteAncho;
     spriteY = 0*spriteAlto;
@@ -79,7 +80,7 @@ void Enemigo::disparar(){
         modo = QRandomGenerator::global()->bounded(0,2);
     }
 
-    Proyectil* nuevo = new Proyectil(goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo);
+    Proyectil* nuevo = new Proyectil(eliminarProyectil, goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo);
     proyectiles.push_back(nuevo);
     this->scene()->addItem(nuevo);
     nuevo->setPos(x, y + (spriteAlto/2));
