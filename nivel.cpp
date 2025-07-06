@@ -1,5 +1,6 @@
 #include "nivel.h"
 #include "ui_mainwindow.h"
+#include "plataforma.h"
 
 Nivel::Nivel(int id) : id(id) {}
 
@@ -18,12 +19,12 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
     if(id == 1){
         ui->vidaEnemigo->setVisible(false);
         ui->vidaGoku->setVisible(false);
-        QPixmap fondo(":/sprites/backgrounds/level1.png");
+        fondo.load(":/sprites/backgrounds/level1.png");
         fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
         QGraphicsPixmapItem *fondo1 = new QGraphicsPixmapItem(fondo);
 
-        //fondo = fondo.transformed(QTransform().scale(-1, 1)); // Reflejar fondo
+        fondo = fondo.transformed(QTransform().scale(-1, 1)); // Reflejar fondo
         QGraphicsPixmapItem *fondo2 = new QGraphicsPixmapItem(fondo);
 
         fondo1->setPos(0, 0);
@@ -48,21 +49,32 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
         });
 
         timerFondo->start(15);
+
+
+        goku = new Goku(0, 400, ui->graphicsView, enemigos);
+        escena->addItem(goku);
+        goku->setFocus();
+
+        // Plataformas
+        vector<Plataforma*> plataformas;
+        for(unsigned int i = 0; i < 10; i++){
+            Plataforma* plataforma = new Plataforma();
+            escena->addItem(plataforma);
+            plataformas.push_back(plataforma);
+        }
     }
     else if(id == 2){
-        QPixmap fondo(":/sprites/backgrounds/level2.png");
+        fondo.load(":/sprites/backgrounds/level2.png");
         fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
         bgImage->setPos(0, 0);
         ui->graphicsView->scene()->addItem(bgImage);
 
         goku = new Goku(0, 450, ui->graphicsView, enemigos);
-        goku->setPos(0, 450);
         escena->addItem(goku);
         goku->setFocus();
 
         Enemigo* enemigo = new Enemigo(1200, 100, proyectiles, goku);
-        enemigo->setPos(1200, 100);
         escena->addItem(enemigo);
         enemigos.push_back(enemigo);
 

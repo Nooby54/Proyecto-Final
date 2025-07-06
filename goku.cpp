@@ -18,6 +18,8 @@ Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
+    setPos(x,y);
+
     // Timers
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &Goku::saltoParabolico);
@@ -37,14 +39,14 @@ void Goku::keyPressEvent(QKeyEvent *event)
         return;
     switch (event->key()) {
     case Qt::Key_A:
-            direccion = false;
-            movimiento(-10,0);
-            configurarSprite(4);
+        direccion = false;
+        movimiento(-10,0);
+        configurarSprite(4);
         break;
     case Qt::Key_D:
-            movimiento(10,0);
-            direccion = true;
-            configurarSprite(5);
+        movimiento(10,0);
+        direccion = true;
+        configurarSprite(5);
         break;
     case Qt::Key_Space:
         //direccion [Izquierda (False), Derecha (True)]

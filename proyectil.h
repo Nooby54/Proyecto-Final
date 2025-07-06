@@ -1,5 +1,5 @@
-#ifndef OBSTACULO_H
-#define OBSTACULO_H
+#ifndef PROYECTIL_H
+#define PROYECTIL_H
 
 class Goku;
 
@@ -7,7 +7,7 @@ class Goku;
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
-class Obstaculo : public QObject, public QGraphicsPixmapItem
+class Proyectil : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
@@ -24,8 +24,8 @@ private slots:
     void movimiento();
 
 public:
-    Obstaculo(Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
+    Proyectil(Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
     void mover();
 };
 
-#endif // OBSTACULO_H
+#endif // PROYECTIL_H

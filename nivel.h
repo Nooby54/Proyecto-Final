@@ -3,7 +3,7 @@
 
 #include "goku.h"
 #include "enemigo.h"
-#include "obstaculo.h"
+#include "proyectil.h"
 #include "ui_mainwindow.h"
 
 #include <vector>
@@ -17,9 +17,10 @@ private:
     unsigned short int id;
     Goku* goku = nullptr;
     std::vector<Enemigo*> enemigos;
-    std::list<Obstaculo*> proyectiles;
+    std::list<Proyectil*> proyectiles;
     QGraphicsScene* escena;
     QTimer *timerEscena;
+    QPixmap fondo;
 
 private slots:
     void finalizarNivel();

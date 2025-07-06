@@ -15,8 +15,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     nivel.cpp \
-    obstaculo.cpp \
-    personaje.cpp
+    personaje.cpp \
+    plataforma.cpp \
+    proyectil.cpp
 
 HEADERS += \
     enemigo.h \
@@ -24,8 +25,9 @@ HEADERS += \
     kamehameha.h \
     mainwindow.h \
     nivel.h \
-    obstaculo.h \
-    personaje.h
+    personaje.h \
+    plataforma.h \
+    proyectil.h
 
 FORMS += \
     mainwindow.ui

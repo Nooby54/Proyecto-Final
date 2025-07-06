@@ -1,16 +1,16 @@
-#include "obstaculo.h"
+#include "proyectil.h"
 #include "goku.h"
 #include <QTimer>
 
-Obstaculo::Obstaculo(Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo)
+Proyectil::Proyectil(Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo)
     : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn),yIn(yIn),g(g),goku(goku) {
     hojaSprites.load(":/sprites/proyectil (32x32).png");
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(spriteActual);
 
     if(modo){
-    timerMovimiento = new QTimer(this);
-    connect(timerMovimiento, &QTimer::timeout, this, [=]() { movimientoParabolico(); });
+        timerMovimiento = new QTimer(this);
+        connect(timerMovimiento, &QTimer::timeout, this, [=]() { movimientoParabolico(); });
     }
     else{
         timerMovimiento = new QTimer(this);
@@ -19,11 +19,11 @@ Obstaculo::Obstaculo(Goku* goku, float velInicial, qreal xIn, qreal yIn, float t
     this->theta = qDegreesToRadians(theta);
 }
 
-void Obstaculo::mover(){
+void Proyectil::mover(){
     timerMovimiento->start(50);
 }
 
-void Obstaculo::movimientoParabolico()
+void Proyectil::movimientoParabolico()
 {
     vX = velInicial * cos(theta);
     x = xIn + (vX*tiempo);
@@ -59,7 +59,7 @@ void Obstaculo::movimientoParabolico()
     }
 }
 
-void Obstaculo::movimiento(){
+void Proyectil::movimiento(){
     x = xIn - velInicial*tiempo;
     setPos(x, y);
     tiempo+=0.1;

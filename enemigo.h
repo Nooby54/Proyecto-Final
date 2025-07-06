@@ -1,7 +1,7 @@
 #ifndef ENEMIGO_H
 #define ENEMIGO_H
 
-#include "obstaculo.h"
+#include "proyectil.h"
 #include "personaje.h"
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -12,7 +12,7 @@ class Enemigo: public Personaje
 
 private:
     unsigned char tiempoSprite = 0;
-    std::list<Obstaculo*>& proyectiles;
+    std::list<Proyectil*>& proyectiles;
     QTimer* timerProyectil;
     Goku* goku;
 
@@ -21,7 +21,7 @@ private slots:
     void disparar();
 
 public:
-    Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo*>& proyectiles, Goku* goku);
+    Enemigo(unsigned int x, unsigned int y, std::list<Proyectil*>& proyectiles, Goku* goku);
     void configurarSprite(unsigned char dir) override;
     void recibirDanio() override;
 };
