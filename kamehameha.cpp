@@ -1,6 +1,5 @@
 #include "kamehameha.h"
 #include "enemigo.h"
-
 #include <QTimer>
 
 Kamehameha::Kamehameha(vector<Enemigo*>& enemigos):enemigos(enemigos) {

@@ -1,7 +1,6 @@
 #include "nivel.h"
 #include "ui_mainwindow.h"
 #include "plataforma.h"
-
 #include <QRandomGenerator>
 
 Nivel::Nivel(int id) : id(id) {}
@@ -12,10 +11,6 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
 
     // Timer para limpiar la escena
     timerEscena = new QTimer(this);
-    /*connect(timerEscena, &QTimer::timeout, this, [this]() {
-        escena->update();
-    });*/
-
     connect(timerEscena, &QTimer::timeout, this, &Nivel::actualizar);
     timerEscena->start(32);
 
@@ -41,8 +36,6 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
         escena->addItem(goku);
         goku->setFocus();
 
-
-
         // Plataformas
         plataformas[0] = new Plataforma(400, 425);
         escena->addItem(plataformas[0]);
@@ -51,6 +44,11 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
             plataformas[i] = new Plataforma(ultimaXPlataforma + 350,QRandomGenerator::global()->bounded(250, 426));
             escena->addItem(plataformas[i]);
             ultimaXPlataforma = ultimaXPlataforma + 400;
+        }
+
+        // Esferas
+        for(unsigned short int i = 0; i < 7; i++){
+            esferas[i] = nullptr;
         }
 
         connect(goku, &Goku::moverFondo, this, [=](){
@@ -66,10 +64,17 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
                 fondo2->setX(fondo1->x() + fondo1->pixmap().width());
             }
 
-            for (auto plataforma : plataformas)
+            for (auto plataforma : plataformas){
                 plataforma->mover();
+            }
+            for(auto esfera : esferas){
+                if(esfera) esfera->mover();
+            }
         });
 
+        timerColisionesEsferas = new QTimer(this);
+        connect(timerColisionesEsferas, &QTimer::timeout, this, &Nivel::verificarColisionesEsferas);
+        timerColisionesEsferas->start(30);
     }
     else if(id == 2){
         fondo.load(":/sprites/backgrounds/level2.png");
@@ -139,8 +144,27 @@ void Nivel::actualizar(){
                 plataforma->setX(ultimaXPlataforma + 350);
                 plataforma->setY(QRandomGenerator::global()->bounded(200, 401));
                 plataforma->setPos(plataforma->getX(),plataforma->getY());
+
+                int probabilidad = QRandomGenerator::global()->bounded(0, 100);
+                if (contadorEsferas < 7 && probabilidad < 40) {
+                    qDebug() << "Esfera" << contadorEsferas;
+                    qreal px = plataforma->getX() + 60;
+                    qreal py = plataforma->getY() - 40;
+                    esferas[contadorEsferas] = new Esfera(contadorEsferas + 1, px, py);
+                    escena->addItem(esferas[contadorEsferas]);
+                    contadorEsferas++;
+                }
             }
             ultimaXPlataforma = plataforma->getX();
+        }
+    }
+}
+
+void Nivel::verificarColisionesEsferas() {
+    for (auto esfera : esferas) {
+        if (esfera && !esfera->estaRecolectada() && goku->collidesWithItem(esfera)) {
+            esfera->recolectar();
+            // Añadir terminacion de nivel
         }
     }
 }

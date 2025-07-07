@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "nivel.h"
 #include "ui_mainwindow.h"
-
 #include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)

@@ -82,8 +82,8 @@ void Goku::movimiento(int dx, int dy){
     if(x < 0){
         x = 1;
     }
-    else if((x + spriteAncho > 1300) && (nivel == 1)){
-        x = 1300 - spriteAncho;
+    else if((x + spriteAncho > 950) && (nivel == 1)){
+        x = 950 - spriteAncho;
     }
     else if((x+spriteAncho > 1000) && (nivel == 2)){
         x = 1000 - spriteAncho;
@@ -134,8 +134,8 @@ void Goku::saltoParabolico()
             velX = 0;
         }
 
-        if((x+ spriteAncho > 1300) && (nivel == 1)){
-            x = 1300 - spriteAncho;
+        if((x+ spriteAncho > 950) && (nivel == 1)){
+            x = 950 - spriteAncho;
             velX = 0;
         }
 

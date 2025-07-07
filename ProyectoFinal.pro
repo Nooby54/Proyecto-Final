@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     enemigo.cpp \
+    esfera.cpp \
     goku.cpp \
     kamehameha.cpp \
     main.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     enemigo.h \
+    esfera.h \
     goku.h \
     kamehameha.h \
     mainwindow.h \
