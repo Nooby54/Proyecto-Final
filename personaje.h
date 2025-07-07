@@ -11,18 +11,19 @@ class Personaje : public QObject, public QGraphicsPixmapItem
 
 protected:
     qreal x, y, velX = 0, velY = 0, velInicial, theta;
-    unsigned int dx = 0, dy = 0, contadorSprite = 0, spriteX = 0, spriteY = 0, spriteAncho = 0, spriteAlto = 0;
+    unsigned int contadorSprite = 0, spriteX = 0, spriteY = 0, spriteAncho = 0, spriteAlto = 0;
     QPixmap hojaSprites, spriteActual;
     signed short int vida = 255;
     QTimer *timerMovimiento;
     bool direccion = true;
+    unsigned char nivel;
 
 signals:
     void actualizarVida(unsigned char vida);
 
 public:
     Personaje();
-    Personaje(unsigned int x, unsigned int y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta);
+    Personaje(qreal x, qreal y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta, unsigned char nivel);
     virtual void recibirDanio();
     virtual void configurarSprite(unsigned char dir);
     virtual ~Personaje();

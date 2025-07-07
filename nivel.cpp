@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "plataforma.h"
 
+#include <QRandomGenerator>
+
 Nivel::Nivel(int id) : id(id) {}
 
 void Nivel::iniciarNivel(Ui::MainWindow *ui)
@@ -10,11 +12,12 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
 
     // Timer para limpiar la escena
     timerEscena = new QTimer(this);
-    connect(timerEscena, &QTimer::timeout, this, [this]() {
+    /*connect(timerEscena, &QTimer::timeout, this, [this]() {
         escena->update();
-    });
-    timerEscena->start(32);
+    });*/
 
+    connect(timerEscena, &QTimer::timeout, this, &Nivel::actualizar);
+    timerEscena->start(32);
 
     // Modo de juego
     if(id == 1){
@@ -25,7 +28,7 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
 
         QGraphicsPixmapItem *fondo1 = new QGraphicsPixmapItem(fondo);
 
-        fondo = fondo.transformed(QTransform().scale(-1, 1)); // Reflejar fondo
+        fondo = fondo.transformed(QTransform().scale(-1, 1));
         QGraphicsPixmapItem *fondo2 = new QGraphicsPixmapItem(fondo);
 
         fondo1->setPos(0, 0);
@@ -34,9 +37,24 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
         escena->addItem(fondo1);
         escena->addItem(fondo2);
 
-        QTimer* timerFondo = new QTimer(this);
-        connect(timerFondo, &QTimer::timeout, this, [=]() {
-            const int velocidadMovimiento = 2;
+        goku = new Goku(0, 400, ui->graphicsView, enemigos, plataformas,id);
+        escena->addItem(goku);
+        goku->setFocus();
+
+
+
+        // Plataformas
+        plataformas[0] = new Plataforma(400, 425);
+        escena->addItem(plataformas[0]);
+        ultimaXPlataforma = 400;
+        for(unsigned char i = 1; i < 8; i++){
+            plataformas[i] = new Plataforma(ultimaXPlataforma + 350,QRandomGenerator::global()->bounded(250, 426));
+            escena->addItem(plataformas[i]);
+            ultimaXPlataforma = ultimaXPlataforma + 400;
+        }
+
+        connect(goku, &Goku::moverFondo, this, [=](){
+            const int velocidadMovimiento = 15;
 
             fondo1->setX(fondo1->x() - velocidadMovimiento);
             fondo2->setX(fondo2->x() - velocidadMovimiento);
@@ -47,22 +65,11 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
             if (fondo2->x() <= -fondo2->pixmap().width()) {
                 fondo2->setX(fondo1->x() + fondo1->pixmap().width());
             }
+
+            for (auto plataforma : plataformas)
+                plataforma->mover();
         });
 
-        timerFondo->start(15);
-
-
-        goku = new Goku(0, 400, ui->graphicsView, enemigos);
-        escena->addItem(goku);
-        goku->setFocus();
-
-        // Plataformas
-        vector<Plataforma*> plataformas;
-        for(unsigned int i = 0; i < 10; i++){
-            Plataforma* plataforma = new Plataforma();
-            escena->addItem(plataforma);
-            plataformas.push_back(plataforma);
-        }
     }
     else if(id == 2){
         fondo.load(":/sprites/backgrounds/level2.png");
@@ -71,11 +78,11 @@ void Nivel::iniciarNivel(Ui::MainWindow *ui)
         bgImage->setPos(0, 0);
         ui->graphicsView->scene()->addItem(bgImage);
 
-        goku = new Goku(0, 450, ui->graphicsView, enemigos);
+        goku = new Goku(0, 450, ui->graphicsView, enemigos, plataformas,id);
         escena->addItem(goku);
         goku->setFocus();
 
-        Enemigo* enemigo = new Enemigo(1200, 100, proyectiles, goku, [this](Proyectil* p) { eliminarProyectil(p); });
+        Enemigo* enemigo = new Enemigo(1200, 100, proyectiles, goku, [this](Proyectil* p) { eliminarProyectil(p); },id);
         escena->addItem(enemigo);
         enemigos.push_back(enemigo);
 
@@ -121,4 +128,19 @@ void Nivel::finalizarNivel() {
 void Nivel::eliminarProyectil(Proyectil* p) {
     proyectiles.remove(p);
     p->deleteLater();
+}
+
+void Nivel::actualizar(){
+    escena->update();
+
+    if(id == 1){
+        for(auto plataforma : plataformas){
+            if (plataforma->getX() + 150 < 0) {
+                plataforma->setX(ultimaXPlataforma + 350);
+                plataforma->setY(QRandomGenerator::global()->bounded(200, 401));
+                plataforma->setPos(plataforma->getX(),plataforma->getY());
+            }
+            ultimaXPlataforma = plataforma->getX();
+        }
+    }
 }

@@ -18,12 +18,15 @@ private:
     Goku* goku = nullptr;
     std::vector<Enemigo*> enemigos;
     std::list<Proyectil*> proyectiles;
+    std::array<Plataforma*,8> plataformas;
     QGraphicsScene* escena;
     QTimer *timerEscena;
     QPixmap fondo;
+    int ultimaXPlataforma = 0;
 
 private slots:
     void finalizarNivel();
+    void actualizar();
 
 public:
     Nivel(int id);

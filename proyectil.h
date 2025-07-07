@@ -20,7 +20,6 @@ private:
     Goku* goku;
     std::function<void(Proyectil*)> eliminarProyectil;
 
-    void verificarColision();
 private slots:
     void movimiento();
 

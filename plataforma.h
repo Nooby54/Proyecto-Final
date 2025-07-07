@@ -11,13 +11,14 @@ class Plataforma : public QObject, public QGraphicsRectItem
 
 private:
     qreal x, y;
-    QTimer *timerMovimiento;
-
-private slots:
-    void mover();
 
 public:
-    Plataforma();
+    Plataforma(qreal x, qreal y);
+    qreal getX();
+    void setX(qreal x);
+    qreal getY();
+    void setY(qreal y);
+    void mover();
 };
 
 

@@ -39,10 +39,6 @@ void Proyectil::movimiento()
     }
     setPos(x, y);
     tiempo += 0.1;
-    verificarColision();
-}
-
-void Proyectil::verificarColision(){
     if (collidesWithItem(goku) || (collidesWithItem(goku->getKamehameha()) && goku->getkamehamehaActivo())) {
         if(!goku->getkamehamehaActivo()){
             goku->recibirDanio();
@@ -52,10 +48,11 @@ void Proyectil::verificarColision(){
         return;
     }
 
-    if(x>1400 || x<-32 || y>730){
+    if(x>1400 || x+spriteAncho<0 || y>730){
         timerMovimiento->stop();
         eliminarProyectil(this);
         return;
     }
 }
+
 Proyectil::~Proyectil(){}

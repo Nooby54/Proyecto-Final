@@ -5,7 +5,7 @@
 
 #define g 0.5
 
-Goku::Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*>& enemigos):Personaje(x,y,64,64,15,70),vista(vista),enemigos(enemigos){
+Goku::Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, std::array<Plataforma*,8>& plataformas, unsigned char nivel):Personaje(x,y,64,64,15,70,nivel),vista(vista),enemigos(enemigos),plataformas(plataformas){
     spriteX = 0*spriteAncho;
     spriteY = 3*spriteAlto;
     dy = y;
@@ -47,18 +47,24 @@ void Goku::keyPressEvent(QKeyEvent *event)
         movimiento(10,0);
         direccion = true;
         configurarSprite(5);
+        if(nivel == 1){
+            emit moverFondo();
+        }
         break;
     case Qt::Key_Space:
         //direccion [Izquierda (False), Derecha (True)]
+        if(salto && (nivel == 1)){
+            return;
+        }
         salto = true;
         velX = velInicial * cos(qDegreesToRadians(theta));
         velY = -velInicial * sin(qDegreesToRadians(theta));
         if (!direccion){
-            velX *= -1;}
-
+            velX *= -1;
+        }
         break;
     case Qt::Key_Q:
-        if (direccion && !(timerCooldown->isActive())) {
+        if (direccion && !(timerCooldown->isActive()) && (nivel == 2)) {
             kamehameha = new Kamehameha(enemigos);
             vista->scene()->addItem(kamehameha);
             kamehameha->setPos(0, 0);
@@ -76,13 +82,23 @@ void Goku::movimiento(int dx, int dy){
     if(x < 0){
         x = 1;
     }
-    else if(x+spriteAncho > 1000){
-        x = 1000-spriteAncho;
+    else if((x + spriteAncho > 1300) && (nivel == 1)){
+        x = 1300 - spriteAncho;
+    }
+    else if((x+spriteAncho > 1000) && (nivel == 2)){
+        x = 1000 - spriteAncho;
     }
     else{
         x+=dx;
     }
     y+=dy;
+
+    if (!salto && y < 450 - spriteAlto) {
+        salto = true;
+        velX = 0;
+        velY = 0;
+    }
+
     setPos(x,y);
 }
 
@@ -118,11 +134,17 @@ void Goku::saltoParabolico()
             velX = 0;
         }
 
-        if(x+spriteAncho > 1000){
+        if((x+ spriteAncho > 1300) && (nivel == 1)){
+            x = 1300 - spriteAncho;
+            velX = 0;
+        }
+
+        else if((x + spriteAncho > 1000) && (nivel == 2)){
             direccion = false;
-            x = 1000-spriteAncho;
+            x = 1000 - spriteAncho;
             velX*=-1;
         }
+
         else if(x < 0){
             direccion = true;
             x = 0;
@@ -131,6 +153,22 @@ void Goku::saltoParabolico()
 
         direccion ? configurarSprite(1) : configurarSprite(0);
         setPos(x, y);
+
+        if(nivel == 1){
+            for (auto plataforma : plataformas) {
+                if (this->collidesWithItem(plataforma)) {
+                    QRectF gokuRect = this->sceneBoundingRect();
+                    QRectF plataformaRect = plataforma->sceneBoundingRect();
+                    if (velY > 0 && gokuRect.bottom() >= plataformaRect.top()) {
+                        y =  plataformaRect.top() - 190;
+                        velY = 0;
+                        velX = 0;
+                        salto = false;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -162,14 +200,15 @@ void Goku::reanudarMovimiento() {
 
 void Goku::recibirDanio(){
     configurarSprite(6);
-    if(vida < 1){
+    vida-=15;
+    if(vida <= 0){
         timerMovimiento->stop();
         timerCooldown->stop();
         timerKamehameha->stop();
         emit derrotado();
         emit actualizarVida(0);
-    }else{
-        vida-=15;
+    }
+    else{
         emit actualizarVida(vida);
     }
 }

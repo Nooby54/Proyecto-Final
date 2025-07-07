@@ -2,8 +2,8 @@
 
 Personaje::Personaje(){}
 
-Personaje::Personaje(unsigned int x, unsigned int y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta):
-    x(x),y(y),velInicial(velInicial),theta(theta),spriteAncho(spriteAncho),spriteAlto(spriteAlto){}
+Personaje::Personaje(qreal x, qreal y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta, unsigned char nivel):
+    x(x),y(y),velInicial(velInicial),theta(theta),spriteAncho(spriteAncho),spriteAlto(spriteAlto),nivel(nivel){}
 
 void Personaje::recibirDanio(){}
 

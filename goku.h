@@ -3,6 +3,7 @@
 
 #include "kamehameha.h"
 #include "personaje.h"
+#include "plataforma.h"
 #include <QTimer>
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -18,6 +19,8 @@ private:
     bool kamehamehaActivo = false, salto = false, saltoPausado = false;
     QGraphicsView *vista;
     vector<Enemigo*>& enemigos;
+    std::array<Plataforma*,8>& plataformas;
+    unsigned int dx = 0, dy = 0;
 
 private slots:
     void saltoParabolico();
@@ -26,9 +29,10 @@ private slots:
 
 signals:
     void derrotado();
+    void moverFondo();
 
 public:
-    Goku(unsigned int x, unsigned int y, QGraphicsView *vista, vector<Enemigo*>& enemigos);
+    Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, std::array<Plataforma*,8>& plataformas, unsigned char nivel);
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
     void configurarSprite(unsigned char dir) override;

@@ -2,8 +2,8 @@
 #include <QTimer>
 #include <QRandomGenerator>
 
-Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Proyectil *> &proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil)
-    : Personaje(x,y,41,94,0,0), proyectiles(proyectiles), goku(goku),eliminarProyectil(eliminarProyectil) {
+Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Proyectil *> &proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil, unsigned char nivel)
+    : Personaje(x,y,41,94,0,0,nivel), proyectiles(proyectiles), goku(goku),eliminarProyectil(eliminarProyectil) {
     hojaSprites.load(":/sprites/Piccolo (41x94).png");
     spriteX = 0*spriteAncho;
     spriteY = 0*spriteAlto;
@@ -55,12 +55,12 @@ void Enemigo::configurarSprite(unsigned char dir){
 
 void Enemigo::recibirDanio(){
     configurarSprite(0);
-    if(vida < 1){
+    vida-=8;
+    if(vida <= 0){
         timerMovimiento->stop();
         timerProyectil->stop();
         emit actualizarVida(0);
     }else{
-        vida-=8;
         emit actualizarVida(vida);
     }
 }

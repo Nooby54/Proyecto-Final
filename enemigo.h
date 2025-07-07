@@ -22,7 +22,7 @@ private slots:
     void disparar();
 
 public:
-    Enemigo(unsigned int x, unsigned int y, std::list<Proyectil*>& proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil);
+    Enemigo(unsigned int x, unsigned int y, std::list<Proyectil*>& proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil, unsigned char nivel);
     void configurarSprite(unsigned char dir) override;
     void recibirDanio() override;
 };
