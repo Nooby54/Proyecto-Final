@@ -1,5 +1,5 @@
-#ifndef PROYECTIL_H
-#define PROYECTIL_H
+#ifndef OBSTACULO_H
+#define OBSTACULO_H
 
 class Goku;
 
@@ -7,7 +7,7 @@ class Goku;
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
-class Proyectil : public QObject, public QGraphicsPixmapItem
+class Obstaculo : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
@@ -18,15 +18,15 @@ private:
     QTimer *timerMovimiento;
     bool dirX = true, dirY = true, modo = true;
     Goku* goku;
-    std::function<void(Proyectil*)> eliminarProyectil;
+    std::function<void(Obstaculo*)> eliminarObstaculo;
 
 private slots:
     void movimiento();
 
 public:
-    Proyectil(std::function<void(Proyectil*)> eliminarProyectil, Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
+    Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
     void mover();
-    ~Proyectil();
+    ~Obstaculo();
 };
 
-#endif // PROYECTIL_H
+#endif // OBSTACULO_H

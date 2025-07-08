@@ -2,15 +2,16 @@
 #define PLATAFORMA_H
 
 #include <QObject>
-#include <QGraphicsRectItem>
-#include <QTimer>
+#include <QGraphicsPixmapItem>
 
-class Plataforma : public QObject, public QGraphicsRectItem
+class Plataforma : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
 private:
     qreal x, y;
+    QPixmap sprite;
+    bool tieneEsfera = false, reposicionado = false;
 
 public:
     Plataforma(qreal x, qreal y);
@@ -19,6 +20,10 @@ public:
     qreal getY();
     void setY(qreal y);
     void mover();
+    bool getTieneEsfera();
+    void setTieneEsfera(bool tieneEsfera);
+    bool getReposicionado();
+    void setReposicionado(bool reposicionado);
 };
 
 

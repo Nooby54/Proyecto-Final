@@ -2,7 +2,7 @@
 #include <QPixmap>
 #include <QtMath>
 
-Esfera::Esfera(unsigned char id, qreal x, qreal y) : id(id), recolectada(false), x(x), y(y), fase(0){
+Esfera::Esfera(unsigned char id, qreal x, qreal y, Goku* goku, Plataforma* plataforma) : id(id), x(x), y(y), goku(goku), plataforma(plataforma){
     hojaSprites.load(":/sprites/Esferas (64x64).png");
     spriteActual = hojaSprites.copy((id-1)*64, 0, 64, 64);
     spriteActual = spriteActual.scaled(32, 32, Qt::KeepAspectRatio);
@@ -16,14 +16,8 @@ Esfera::Esfera(unsigned char id, qreal x, qreal y) : id(id), recolectada(false),
     timerMovimiento->start(16);
 }
 
-bool Esfera::estaRecolectada() const {
+bool Esfera::getRecolectada() {
     return recolectada;
-}
-
-void Esfera::recolectar() {
-    recolectada = true;
-    this->setVisible(false);
-    timerMovimiento->stop();
 }
 
 void Esfera::moverSenoidal() {
@@ -38,6 +32,21 @@ void Esfera::moverSenoidal() {
 }
 
 void Esfera::mover(){
-    x-=5;
-    setPos(x,y);
+    if (!recolectada && goku->collidesWithItem(this)) {
+        recolectada = true;
+        this->setVisible(false);
+        timerMovimiento->stop();
+        plataforma->setTieneEsfera(false);
+        emit esferaRecolectada();
+    }
+
+    if (plataforma) {
+        x = plataforma->getX() + 60;
+        if(plataforma->getReposicionado()){
+            y = plataforma->getY() - 40;
+            yOriginal = y;
+            plataforma->setReposicionado(false);
+        }
+    }
+    setPos(x, y);
 }

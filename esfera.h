@@ -1,6 +1,7 @@
 #ifndef ESFERA_H
 #define ESFERA_H
 
+#include "goku.h"
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
@@ -11,16 +12,20 @@ class Esfera : public QObject, public QGraphicsPixmapItem
 
 private:
     unsigned char id;
-    bool recolectada;
+    bool recolectada = false;
     QTimer* timerMovimiento;
     qreal yOriginal, x, y;
-    float fase;
+    float fase = 0;
     QPixmap hojaSprites, spriteActual;
+    Goku* goku;
+    Plataforma* plataforma;
+
+signals:
+    void esferaRecolectada();
 
 public:
-    Esfera(unsigned char id, qreal x, qreal y);
-    bool estaRecolectada() const;
-    void recolectar();
+    Esfera(unsigned char id, qreal x, qreal y, Goku* goku, Plataforma* plataforma);
+    bool getRecolectada();
     void mover();
 
 private slots:

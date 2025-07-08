@@ -1,9 +1,9 @@
-#include "proyectil.h"
+#include "obstaculo.h"
 #include "goku.h"
 #include <QTimer>
 
-Proyectil::Proyectil(std::function<void(Proyectil*)> eliminarProyectil, Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo)
-    : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn), yIn(yIn),g(g),modo(modo),goku(goku), eliminarProyectil(eliminarProyectil) {
+Obstaculo::Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo)
+    : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn), yIn(yIn),g(g),modo(modo),goku(goku), eliminarObstaculo(eliminarObstaculo) {
     hojaSprites.load(":/sprites/proyectil (32x32).png");
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(spriteActual);
@@ -13,11 +13,11 @@ Proyectil::Proyectil(std::function<void(Proyectil*)> eliminarProyectil, Goku* go
     this->theta = qDegreesToRadians(theta);
 }
 
-void Proyectil::mover(){
+void Obstaculo::mover(){
     timerMovimiento->start(50);
 }
 
-void Proyectil::movimiento()
+void Obstaculo::movimiento()
 {
     if(modo){
         vX = velInicial * cos(theta);
@@ -44,15 +44,15 @@ void Proyectil::movimiento()
             goku->recibirDanio();
         }
         timerMovimiento->stop();
-        eliminarProyectil(this);
+        eliminarObstaculo(this);
         return;
     }
 
     if(x>1400 || x+spriteAncho<0 || y>730){
         timerMovimiento->stop();
-        eliminarProyectil(this);
+        eliminarObstaculo(this);
         return;
     }
 }
 
-Proyectil::~Proyectil(){}
+Obstaculo::~Obstaculo(){}

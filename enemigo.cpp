@@ -2,8 +2,8 @@
 #include <QTimer>
 #include <QRandomGenerator>
 
-Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Proyectil *> &proyectiles, Goku* goku, std::function<void(Proyectil*)> eliminarProyectil, unsigned char nivel)
-    : Personaje(x,y,41,94,0,0,nivel), proyectiles(proyectiles), goku(goku),eliminarProyectil(eliminarProyectil) {
+Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo *> &proyectiles, Goku* goku, std::function<void(Obstaculo*)> eliminarObstaculo, unsigned char nivel)
+    : Personaje(x,y,41,94,0,0,nivel), proyectiles(proyectiles), goku(goku),eliminarObstaculo(eliminarObstaculo) {
     hojaSprites.load(":/sprites/Piccolo (41x94).png");
     spriteX = 0*spriteAncho;
     spriteY = 0*spriteAlto;
@@ -15,17 +15,16 @@ Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Proyectil *> &proyect
     setPos(x,y);
 
     timerMovimiento = new QTimer(this);
-    connect(timerMovimiento, &QTimer::timeout, this, [=]()
-            {
-                movimiento();
-                configurarSprite(1);
-                tiempoSprite++;
-            });
+    connect(timerMovimiento, &QTimer::timeout, this, [=](){
+        movimiento();
+        configurarSprite(1);
+        tiempoSprite++;
+    });
     timerMovimiento->start(45);
 
-    timerProyectil = new QTimer(this);
-    connect(timerProyectil, &QTimer::timeout, this, &Enemigo::disparar);
-    timerProyectil->start(500);
+    timerObstaculo = new QTimer(this);
+    connect(timerObstaculo, &QTimer::timeout, this, &Enemigo::disparar);
+    timerObstaculo->start(500);
 }
 
 void Enemigo::movimiento(){
@@ -58,7 +57,8 @@ void Enemigo::recibirDanio(){
     vida-=8;
     if(vida <= 0){
         timerMovimiento->stop();
-        timerProyectil->stop();
+        timerObstaculo->stop();
+        emit derrotado();
         emit actualizarVida(0);
     }else{
         emit actualizarVida(vida);
@@ -79,8 +79,7 @@ void Enemigo::disparar(){
     else{
         modo = QRandomGenerator::global()->bounded(0,2);
     }
-
-    Proyectil* nuevo = new Proyectil(eliminarProyectil, goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo);
+    Obstaculo* nuevo = new Obstaculo(eliminarObstaculo, goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo);
     proyectiles.push_back(nuevo);
     this->scene()->addItem(nuevo);
     nuevo->setPos(x, y + (spriteAlto/2));

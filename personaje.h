@@ -20,10 +20,17 @@ protected:
 
 signals:
     void actualizarVida(unsigned char vida);
+    void derrotado();
 
 public:
     Personaje();
     Personaje(qreal x, qreal y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta, unsigned char nivel);
+
+    qreal getVelY();
+    void setVelY(qreal velY);
+    void setY(qreal y);
+    void setVelX(qreal velX);
+    qreal getY();
     virtual void recibirDanio();
     virtual void configurarSprite(unsigned char dir);
     virtual ~Personaje();

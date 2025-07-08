@@ -4,7 +4,7 @@
 #include "esfera.h"
 #include "goku.h"
 #include "enemigo.h"
-#include "proyectil.h"
+#include "obstaculo.h"
 #include "ui_mainwindow.h"
 #include <vector>
 #include <list>
@@ -17,24 +17,22 @@ private:
     unsigned short int id, contadorEsferas = 0;
     Goku* goku = nullptr;
     std::vector<Enemigo*> enemigos;
-    std::list<Proyectil*> proyectiles;
+    std::list<Obstaculo*> proyectiles;
     std::array<Plataforma*,8> plataformas;
     QGraphicsScene* escena;
     QTimer *timerEscena;
     QPixmap fondo;
     int ultimaXPlataforma = 0;
     std::array<Esfera*, 7> esferas;
-    QTimer* timerColisionesEsferas;
 
 private slots:
     void finalizarNivel();
     void actualizar();
-    void verificarColisionesEsferas();
 
 public:
     Nivel(int id);
     void iniciarNivel(Ui::MainWindow *ui);
-    void eliminarProyectil(Proyectil* p);
+    void eliminarObstaculo(Obstaculo* p);
 };
 
 #endif // NIVEL_H

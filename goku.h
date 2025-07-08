@@ -16,7 +16,7 @@ class Goku : public Personaje
 private:
     QTimer *timerKamehameha, *timerCooldown;
     Kamehameha* kamehameha = nullptr;
-    bool kamehamehaActivo = false, salto = false, saltoPausado = false;
+    bool kamehamehaActivo = false, salto = false, saltoPausado = false, debeCaer = false;
     QGraphicsView *vista;
     vector<Enemigo*>& enemigos;
     std::array<Plataforma*,8>& plataformas;
@@ -27,10 +27,6 @@ private slots:
     void spriteKamehameha();
     void reanudarMovimiento();
 
-signals:
-    void derrotado();
-    void moverFondo();
-
 public:
     Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, std::array<Plataforma*,8>& plataformas, unsigned char nivel);
     void keyPressEvent(QKeyEvent *event) override;
@@ -38,6 +34,10 @@ public:
     void configurarSprite(unsigned char dir) override;
     void recibirDanio() override;
     bool getkamehamehaActivo() const;
+    void setSalto(bool salto);
+    bool getSalto();
+    bool getDebeCaer();
+    void setDebeCaer(bool debeCaer);
     Kamehameha* getKamehameha() const;
 };
 
