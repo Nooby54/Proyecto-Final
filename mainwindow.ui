@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1426</width>
+    <height>756</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="nivel1">
+    <property name="geometry">
+     <rect>
+      <x>625</x>
+      <y>310</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nivel 1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nivel2">
+    <property name="geometry">
+     <rect>
+      <x>625</x>
+      <y>400</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nivel 2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="teclas">
+    <property name="geometry">
+     <rect>
+      <x>625</x>
+      <y>490</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Teclas</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="salir">
+    <property name="geometry">
+     <rect>
+      <x>625</x>
+      <y>580</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Salir</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1400</width>
+      <height>730</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconoGoku">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>15</y>
+      <width>40</width>
+      <height>52</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>icono</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="vidaGoku">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>320</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>255</number>
+    </property>
+    <property name="textVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="vidaEnemigo">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>20</y>
+      <width>320</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::RightToLeft</enum>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>255</number>
+    </property>
+    <property name="textVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconoEnemigo">
+    <property name="geometry">
+     <rect>
+      <x>1030</x>
+      <y>15</y>
+      <width>40</width>
+      <height>52</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>icono</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelEsferas">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>30</y>
+      <width>231</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>8514oem</family>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Esferas Recolectadas:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="conteoEsferas">
+    <property name="geometry">
+     <rect>
+      <x>1310</x>
+      <y>30</y>
+      <width>63</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>8514oem</family>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string> 0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="menu">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>610</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Volver al menu</string>
+    </property>
+   </widget>
+   <zorder>graphicsView</zorder>
+   <zorder>nivel1</zorder>
+   <zorder>nivel2</zorder>
+   <zorder>teclas</zorder>
+   <zorder>salir</zorder>
+   <zorder>iconoGoku</zorder>
+   <zorder>vidaGoku</zorder>
+   <zorder>vidaEnemigo</zorder>
+   <zorder>iconoEnemigo</zorder>
+   <zorder>labelEsferas</zorder>
+   <zorder>conteoEsferas</zorder>
+   <zorder>menu</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
