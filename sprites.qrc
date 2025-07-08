@@ -6,5 +6,7 @@
         <file>sprites/Piccolo (41x94).png</file>
         <file>sprites/Esferas (64x64).png</file>
         <file>sprites/Plataforma (48x16).png</file>
+        <file>sprites/BarraDeVidaGoku (40x56).png</file>
+        <file>sprites/BarraDeVidaPiccolo (40x45).png</file>
     </qresource>
 </RCC>

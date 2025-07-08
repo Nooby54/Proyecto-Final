@@ -15,7 +15,6 @@ SOURCES += \
     kamehameha.cpp \
     main.cpp \
     mainwindow.cpp \
-    nivel.cpp \
     obstaculo.cpp \
     personaje.cpp \
     plataforma.cpp
@@ -26,7 +25,6 @@ HEADERS += \
     goku.h \
     kamehameha.h \
     mainwindow.h \
-    nivel.h \
     obstaculo.h \
     personaje.h \
     plataforma.h

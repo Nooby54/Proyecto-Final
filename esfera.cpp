@@ -1,6 +1,5 @@
 #include "esfera.h"
 #include <QPixmap>
-#include <QtMath>
 
 Esfera::Esfera(unsigned char id, qreal x, qreal y, Goku* goku, Plataforma* plataforma) : id(id), x(x), y(y), goku(goku), plataforma(plataforma){
     hojaSprites.load(":/sprites/Esferas (64x64).png");
@@ -26,7 +25,7 @@ void Esfera::moverSenoidal() {
     fase += 0.15;
     if (fase > 6.28) fase = 0;
 
-    qreal yOffset = 15 * qSin(fase);
+    qreal yOffset = 15 * sin(fase);
     y = yOriginal + yOffset;
     setY(y);
 }

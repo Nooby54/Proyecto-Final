@@ -1,7 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "nivel.h"
+#include "enemigo.h"
+#include "esfera.h"
+#include "obstaculo.h"
+#include "plataforma.h"
+#include "qgraphicsscene.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -16,10 +20,28 @@ class MainWindow : public QMainWindow
 
 private:
     Ui::MainWindow *ui;
-    Nivel* nivel;
+    unsigned short int id, contadorEsferas = 0, esferasRecolectadas = 0;
+    Goku* goku = nullptr;
+    std::vector<Enemigo*> enemigos;
+    std::list<Obstaculo*> proyectiles;
+    std::array<Plataforma*,8> plataformas;
+    QGraphicsScene* escena;
+    QTimer *timerEscena;
+    QPixmap fondo;
+    int ultimaXPlataforma = 0;
+    std::array<Esfera*, 7> esferas;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void eliminarObstaculo(Obstaculo* p);
+
+private slots:
+    void on_nivel1_clicked();
+    void on_nivel2_clicked();
+    void actualizar();
+    void finalizarNivel();
+    void on_teclas_clicked();
+    void on_salir_clicked();
 };
 #endif // MAINWINDOW_H

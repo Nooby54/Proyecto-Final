@@ -181,7 +181,7 @@ void Goku::reanudarMovimiento() {
     kamehamehaActivo = false;
     delete kamehameha;
     kamehameha = nullptr;
-    timerCooldown->start(1500);
+    timerCooldown->start(1200);
 }
 
 void Goku::recibirDanio(){

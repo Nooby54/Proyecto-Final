@@ -23,7 +23,6 @@ signals:
     void derrotado();
 
 public:
-    Personaje();
     Personaje(qreal x, qreal y, unsigned int spriteAncho, unsigned int spriteAlto, qreal velInicial, qreal theta, unsigned char nivel);
 
     qreal getVelY();
