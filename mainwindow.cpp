@@ -263,6 +263,8 @@ void MainWindow::finalizarNivel() {
     ui->iconoEnemigo->setVisible(false);
     ui->vidaGoku->setVisible(false);
     ui->iconoGoku->setVisible(false);
+    ui->labelEsferas->setVisible(false);
+    ui->conteoEsferas->setVisible(false);
 
     for (auto proyectil : proyectiles) {
         if (proyectil && escena->items().contains(proyectil)) {
