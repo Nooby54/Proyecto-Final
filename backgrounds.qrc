@@ -4,5 +4,7 @@
         <file>sprites/backgrounds/level1.png</file>
         <file>sprites/backgrounds/keys.png</file>
         <file>sprites/backgrounds/menu.png</file>
+        <file>sprites/backgrounds/gano.png</file>
+        <file>sprites/backgrounds/perdio.png</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@ protected:
     unsigned int contadorSprite = 0, spriteX = 0, spriteY = 0, spriteAncho = 0, spriteAlto = 0;
     QPixmap hojaSprites, spriteActual;
     signed short int vida = 255;
-    QTimer *timerMovimiento;
+    QTimer *timerMovimiento = nullptr;
     bool direccion = true;
     unsigned char nivel;
 

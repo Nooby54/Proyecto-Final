@@ -5,7 +5,7 @@
 
 #define g 0.5
 
-Goku::Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, std::array<Plataforma*,8>& plataformas, unsigned char nivel):Personaje(x,y,64,64,15,70,nivel),vista(vista),enemigos(enemigos),plataformas(plataformas){
+Goku::Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, unsigned char nivel):Personaje(x,y,64,64,15,70,nivel),vista(vista),enemigos(enemigos){
     spriteX = 0*spriteAncho;
     spriteY = 3*spriteAlto;
     dy = y;
@@ -188,9 +188,9 @@ void Goku::recibirDanio(){
     configurarSprite(6);
     vida-=15;
     if(vida <= 0){
-        timerMovimiento->stop();
-        timerCooldown->stop();
-        timerKamehameha->stop();
+        if(timerMovimiento) timerMovimiento->stop();
+        if(timerCooldown) timerCooldown->stop();
+        if(timerKamehameha) timerKamehameha->stop();
         emit derrotado();
         emit actualizarVida(0);
     }

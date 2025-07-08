@@ -17,7 +17,7 @@ private:
     unsigned int dx, dy, contadorSprite=0, spriteX=0, spriteY=0, spriteAncho=192, spriteAlto=64;
     float escalaX = 1.0;
     QPixmap hojaSprites, spriteActual;
-    QTimer *timerMovimiento, *timerSprite;
+    QTimer *timerMovimiento = nullptr, *timerSprite = nullptr;
     vector<Enemigo*>& enemigos;
 
 private slots:

@@ -13,18 +13,19 @@ class Obstaculo : public QObject, public QGraphicsPixmapItem
 
 private:
     qreal x, y, vX, vY, angulo, velInicial, theta, xIn, yIn, tiempo=0;
-    unsigned int dx, dy, contadorSprite, spriteX=0, spriteY=0, spriteAncho=32, spriteAlto=32, g;
-    QPixmap hojaSprites, spriteActual;
-    QTimer *timerMovimiento;
+    unsigned int contadorSprite, spriteX=0, spriteY=0, spriteAncho=32, spriteAlto=32, g;
+    unsigned char nivel;
+    QPixmap sprite;
+    QTimer *timerMovimiento = nullptr;
     bool dirX = true, dirY = true, modo = true;
-    Goku* goku;
+    Goku* goku = nullptr;
     std::function<void(Obstaculo*)> eliminarObstaculo;
 
 private slots:
     void movimiento();
 
 public:
-    Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo);
+    Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* goku, float velIn, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo, unsigned char nivel);
     void mover();
     ~Obstaculo();
 };

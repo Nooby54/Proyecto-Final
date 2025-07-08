@@ -2,11 +2,29 @@
 #include "goku.h"
 #include <QTimer>
 
-Obstaculo::Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo)
-    : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn), yIn(yIn),g(g),modo(modo),goku(goku), eliminarObstaculo(eliminarObstaculo) {
-    hojaSprites.load(":/sprites/proyectil (32x32).png");
-    spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
-    setPixmap(spriteActual);
+Obstaculo::Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* goku, float velInicial, qreal xIn, qreal yIn, float theta, unsigned int g, bool modo, unsigned char nivel)
+    : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn), yIn(yIn), g(g), nivel(nivel), modo(modo), goku(goku), eliminarObstaculo(eliminarObstaculo) {
+    if(nivel == 1){
+        if(yIn >= 450){
+            sprite.load(":/sprites/Carro (56x30).png");
+            sprite = sprite.scaled(192, 102, Qt::KeepAspectRatio);
+            setPixmap(sprite);
+            spriteAncho = 192;
+            spriteAlto = 102;
+        }else{
+            sprite.load(":/sprites/Nave (133x156).png");
+            sprite = sprite.scaled(160, 187, Qt::KeepAspectRatio);
+            setPixmap(sprite);
+            spriteAncho = 160;
+            spriteAlto = 187;
+        }
+    }
+    else if(nivel == 2){
+        sprite.load(":/sprites/proyectil (32x32).png");
+        setPixmap(sprite);
+        spriteAncho = 32;
+        spriteAlto = 32;
+    }
 
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, [=]() { movimiento(); });

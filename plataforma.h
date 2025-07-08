@@ -26,5 +26,4 @@ public:
     void setReposicionado(bool reposicionado);
 };
 
-
 #endif // PLATAFORMA_H

@@ -56,8 +56,8 @@ void Enemigo::recibirDanio(){
     configurarSprite(0);
     vida-=8;
     if(vida <= 0){
-        timerMovimiento->stop();
-        timerObstaculo->stop();
+        if(timerMovimiento) timerMovimiento->stop();
+        if(timerObstaculo) timerObstaculo->stop();
         emit derrotado();
         emit actualizarVida(0);
     }else{
@@ -79,7 +79,7 @@ void Enemigo::disparar(){
     else{
         modo = QRandomGenerator::global()->bounded(0,2);
     }
-    Obstaculo* nuevo = new Obstaculo(eliminarObstaculo, goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo);
+    Obstaculo* nuevo = new Obstaculo(eliminarObstaculo, goku, velAleatoria, x, y + (spriteAlto/2), anguloAleatorio, gravedadAleatoria,modo,nivel);
     proyectiles.push_back(nuevo);
     this->scene()->addItem(nuevo);
     nuevo->setPos(x, y + (spriteAlto/2));

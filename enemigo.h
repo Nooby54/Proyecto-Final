@@ -13,8 +13,8 @@ class Enemigo: public Personaje
 private:
     unsigned char tiempoSprite = 0;
     std::list<Obstaculo*>& proyectiles;
-    QTimer* timerObstaculo;
-    Goku* goku;
+    QTimer* timerObstaculo = nullptr;
+    Goku* goku = nullptr;
     std::function<void(Obstaculo*)> eliminarObstaculo;
 
 private slots:
