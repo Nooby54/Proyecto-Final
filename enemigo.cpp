@@ -1,15 +1,15 @@
 #include "enemigo.h"
 #include <QTimer>
 #include <QRandomGenerator>
+#include <QSoundEffect>
 
 Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo *> &proyectiles, Goku* goku, std::function<void(Obstaculo*)> eliminarObstaculo, unsigned char nivel)
-    : Personaje(x,y,41,94,0,0,nivel), proyectiles(proyectiles), goku(goku),eliminarObstaculo(eliminarObstaculo) {
-    hojaSprites.load(":/sprites/Piccolo (41x94).png");
+    : Personaje(x,y,123,282,0,0,nivel), proyectiles(proyectiles), goku(goku),eliminarObstaculo(eliminarObstaculo) {
+    hojaSprites.load(":/sprites/Piccolo (123x282).png");
     spriteX = 0*spriteAncho;
     spriteY = 0*spriteAlto;
 
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
-    spriteActual = spriteActual.scaled(123, 282, Qt::KeepAspectRatio);
     setPixmap(spriteActual);
 
     setPos(x,y);
@@ -25,6 +25,9 @@ Enemigo::Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo *> &proyect
     timerObstaculo = new QTimer(this);
     connect(timerObstaculo, &QTimer::timeout, this, &Enemigo::disparar);
     timerObstaculo->start(500);
+
+    efectoDanio = new QSoundEffect(this);
+    efectoDanio->setSource(QUrl::fromLocalFile(":/audios/PiccoloDanio.wav"));
 }
 
 void Enemigo::movimiento(){
@@ -48,13 +51,13 @@ void Enemigo::configurarSprite(unsigned char dir){
     spriteY = dir * spriteAlto;
     spriteX = spriteAncho * contadorSprite;
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
-    spriteActual = spriteActual.scaled(123, 282, Qt::KeepAspectRatio);
     setPixmap(spriteActual);
 }
 
 void Enemigo::recibirDanio(){
     configurarSprite(0);
     vida-=8;
+    if(!efectoDanio->isPlaying()) efectoDanio->play();
     if(vida <= 0){
         if(timerMovimiento) timerMovimiento->stop();
         if(timerObstaculo) timerObstaculo->stop();

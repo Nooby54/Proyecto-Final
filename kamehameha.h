@@ -19,6 +19,7 @@ private:
     QPixmap hojaSprites, spriteActual;
     QTimer *timerMovimiento = nullptr, *timerSprite = nullptr;
     vector<Enemigo*>& enemigos;
+    QSoundEffect* efectoKamehameha = nullptr;
 
 private slots:
     void mover();

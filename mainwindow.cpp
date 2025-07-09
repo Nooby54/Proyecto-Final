@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include <QRandomGenerator>
 #include <QLabel>
+#include <QAudioOutput>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -50,6 +51,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     timerEscena = new QTimer(this);
     connect(timerEscena, &QTimer::timeout, this, &MainWindow::actualizar);
+
+    gestorSonido = new QMediaPlayer(this);
+    audioOutput = new QAudioOutput(this);
+    gestorSonido->setAudioOutput(audioOutput);
+    audioOutput->setVolume(0.6);
+    gestorSonido->setSource(QUrl("qrc:/audios/Menu.mp3"));
+    gestorSonido->setLoops(-1);
+    gestorSonido->play();
 }
 
 MainWindow::~MainWindow()
@@ -59,9 +68,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_nivel1_clicked()
 {
+    if(gestorSonido->isPlaying()) gestorSonido->stop();
+    gestorSonido->setSource(QUrl("qrc:/audios/Nivel1.mp3"));
+    gestorSonido->setLoops(-1);
+    gestorSonido->play();
+
     id = 1;
     contadorEsferas = 0;
     esferasRecolectadas = 0;
+
     // Cambiando visibilidad
     ui->vidaEnemigo->setVisible(false);
     ui->iconoEnemigo->setVisible(false);
@@ -176,6 +191,11 @@ void MainWindow::on_nivel1_clicked()
 
 void MainWindow::on_nivel2_clicked()
 {
+    if(gestorSonido->isPlaying()) gestorSonido->stop();
+    gestorSonido->setSource(QUrl("qrc:/audios/Nivel2.mp3"));
+    gestorSonido->setLoops(-1);
+    gestorSonido->play();
+
     // Cambiando visibilidad
     ui->vidaEnemigo->setVisible(true);
     ui->iconoEnemigo->setVisible(true);
@@ -340,6 +360,11 @@ void MainWindow::on_salir_clicked()
 
 void MainWindow::on_menu_clicked()
 {
+    if(gestorSonido->isPlaying()) gestorSonido->stop();
+    gestorSonido->setSource(QUrl("qrc:/audios/Menu.mp3"));
+    gestorSonido->setLoops(-1);
+    gestorSonido->play();
+
     // Fondo
     fondo.load(":/sprites/backgrounds/menu.png");
     fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -363,6 +388,11 @@ void MainWindow::on_menu_clicked()
 void MainWindow::gano(){
     finalizarNivel();
 
+    if(gestorSonido->isPlaying()) gestorSonido->stop();
+    gestorSonido->setSource(QUrl("qrc:/audios/NivelGano.mp3"));
+    gestorSonido->setLoops(1);
+    gestorSonido->play();
+
     fondo.load(":/sprites/backgrounds/gano.png");
     fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
@@ -373,6 +403,11 @@ void MainWindow::gano(){
 
 void MainWindow::perdio(){
     finalizarNivel();
+
+    if(gestorSonido->isPlaying()) gestorSonido->stop();
+    gestorSonido->setSource(QUrl("qrc:/audios/NivelPerdio.mp3"));
+    gestorSonido->setLoops(1);
+    gestorSonido->play();
 
     fondo.load(":/sprites/backgrounds/perdio.png");
     fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

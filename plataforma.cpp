@@ -3,8 +3,7 @@
 #include <QRandomGenerator>
 
 Plataforma::Plataforma(qreal x, qreal y):x(x), y(y) {
-    sprite.load(":/sprites/Plataforma (48x16).png");
-    sprite = sprite.scaled(150, 50, Qt::IgnoreAspectRatio);
+    sprite.load(":/sprites/Plataforma (150x50).png");
     setPixmap(sprite);
     setPos(x, y);
 }

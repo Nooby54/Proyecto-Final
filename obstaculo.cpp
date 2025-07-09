@@ -6,26 +6,18 @@ Obstaculo::Obstaculo(std::function<void(Obstaculo*)> eliminarObstaculo, Goku* go
     : x(xIn), y(yIn), velInicial(velInicial), xIn(xIn), yIn(yIn), g(g), nivel(nivel), modo(modo), goku(goku), eliminarObstaculo(eliminarObstaculo) {
     if(nivel == 1){
         if(yIn >= 450){
-            sprite.load(":/sprites/Carro (56x30).png");
-            sprite = sprite.scaled(192, 102, Qt::KeepAspectRatio);
-            setPixmap(sprite);
-            spriteAncho = 192;
-            spriteAlto = 102;
+            sprite.load(":/sprites/Carro (192x102).png");
         }else{
-            sprite.load(":/sprites/Nave (133x156).png");
-            sprite = sprite.scaled(160, 187, Qt::KeepAspectRatio);
-            setPixmap(sprite);
-            spriteAncho = 160;
-            spriteAlto = 187;
+            sprite.load(":/sprites/Nave (160x187).png");
         }
     }
     else if(nivel == 2){
         sprite.load(":/sprites/proyectil (32x32).png");
-        setPixmap(sprite);
-        spriteAncho = 32;
-        spriteAlto = 32;
     }
 
+    setPixmap(sprite);
+    spriteAncho = sprite.width();
+    spriteAlto = sprite.height();
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, [=]() { movimiento(); });
     this->theta = qDegreesToRadians(theta);

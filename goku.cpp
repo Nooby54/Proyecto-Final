@@ -1,19 +1,19 @@
 #include <QKeyEvent>
 #include <QTimer>
+#include <QSoundEffect>
 #include "goku.h"
 #include "qgraphicsscene.h"
 
 #define g 0.5
 
-Goku::Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, unsigned char nivel):Personaje(x,y,64,64,15,70,nivel),vista(vista),enemigos(enemigos){
+Goku::Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, unsigned char nivel):Personaje(x,y,192,192,15,70,nivel),vista(vista),enemigos(enemigos){
     spriteX = 0*spriteAncho;
     spriteY = 3*spriteAlto;
     dy = y;
     dx = x;
 
-    hojaSprites.load(":/sprites/Goku (64x64).png");
+    hojaSprites.load(":/sprites/Goku (192x192).png");
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
-    spriteActual = spriteActual.scaled(192, 192, Qt::KeepAspectRatio);
     setPixmap(spriteActual);
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
@@ -32,6 +32,9 @@ Goku::Goku(qreal x, qreal y, QGraphicsView *vista, vector<Enemigo*>& enemigos, u
         timerCooldown = new QTimer(this);
         timerCooldown->setSingleShot(true);
     }
+
+    efectoDanio = new QSoundEffect(this);
+    efectoDanio->setSource(QUrl::fromLocalFile(":/audios/GokuDanio.wav"));
 }
 
 void Goku::keyPressEvent(QKeyEvent *event)
@@ -99,7 +102,6 @@ void Goku::configurarSprite(unsigned char dir){
     spriteY = dir * spriteAlto;
     spriteX = spriteAncho * contadorSprite;
     spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
-    spriteActual = spriteActual.scaled(192, 192, Qt::KeepAspectRatio);
     setPixmap(spriteActual);
     contadorSprite++;
 }
@@ -160,10 +162,10 @@ void Goku::saltoParabolico()
 
 void Goku::spriteKamehameha(){
     if(kamehamehaActivo){
+        if(efectoDanio->isPlaying()) efectoDanio->stop();
         spriteY = 2 * spriteAlto;
         spriteX = spriteAncho * contadorSprite;
         spriteActual = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
-        spriteActual = spriteActual.scaled(192, 192, Qt::KeepAspectRatio);
         setPixmap(spriteActual);
         if(contadorSprite < 5){
             contadorSprite++;
@@ -187,6 +189,7 @@ void Goku::reanudarMovimiento() {
 void Goku::recibirDanio(){
     configurarSprite(6);
     vida-=15;
+    if(!efectoDanio->isPlaying()) efectoDanio->play();
     if(vida <= 0){
         if(timerMovimiento) timerMovimiento->stop();
         if(timerCooldown) timerCooldown->stop();

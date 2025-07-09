@@ -1,6 +1,7 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
+#include <QSoundEffect>
 #include <QPixmap>
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -17,6 +18,7 @@ protected:
     QTimer *timerMovimiento = nullptr;
     bool direccion = true;
     unsigned char nivel;
+    QSoundEffect* efectoDanio = nullptr;
 
 signals:
     void actualizarVida(unsigned char vida);

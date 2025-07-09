@@ -20,6 +20,7 @@ private:
     QPixmap hojaSprites, spriteActual;
     Goku* goku = nullptr;
     Plataforma* plataforma = nullptr;
+    QSoundEffect* efecto = nullptr;
 
 signals:
     void esferaRecolectada();
