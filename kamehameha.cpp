@@ -1,6 +1,7 @@
 #include "kamehameha.h"
 #include "enemigo.h"
 #include <QTimer>
+#include <QSoundEffect>
 
 Kamehameha::Kamehameha(vector<Enemigo*>& enemigos):enemigos(enemigos) {
     hojaSprites.load(":/sprites/Kamehameha (192x64).png");
@@ -22,6 +23,10 @@ Kamehameha::Kamehameha(vector<Enemigo*>& enemigos):enemigos(enemigos) {
         setTransform(QTransform::fromScale(escalaX, 1));
         contadorSprite++;
     });
+
+    efectoKamehameha = new QSoundEffect(this);
+    efectoKamehameha->setSource(QUrl::fromLocalFile(":/audios/Kamehameha.wav"));
+    efectoKamehameha->play();
 }
 
 void Kamehameha::lanzar(unsigned int dx, unsigned int dy){

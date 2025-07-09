@@ -1,14 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>sprites/Goku (64x64).png</file>
         <file>sprites/Kamehameha (192x64).png</file>
         <file>sprites/proyectil (32x32).png</file>
-        <file>sprites/Piccolo (41x94).png</file>
-        <file>sprites/Esferas (64x64).png</file>
-        <file>sprites/Plataforma (48x16).png</file>
         <file>sprites/BarraDeVidaGoku (40x56).png</file>
         <file>sprites/BarraDeVidaPiccolo (40x45).png</file>
-        <file>sprites/Carro (56x30).png</file>
-        <file>sprites/Nave (133x156).png</file>
+        <file>sprites/Goku (192x192).png</file>
+        <file>sprites/Piccolo (123x282).png</file>
+        <file>sprites/Esferas (32x32).png</file>
+        <file>sprites/Carro (192x102).png</file>
+        <file>sprites/Nave (160x187).png</file>
+        <file>sprites/Plataforma (150x50).png</file>
     </qresource>
 </RCC>

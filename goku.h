@@ -37,6 +37,7 @@ public:
     bool getDebeCaer();
     void setDebeCaer(bool debeCaer);
     Kamehameha* getKamehameha() const;
+    ~Goku();
 };
 
 #endif // GOKU_H

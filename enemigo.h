@@ -25,6 +25,7 @@ public:
     Enemigo(unsigned int x, unsigned int y, std::list<Obstaculo*>& proyectiles, Goku* goku, std::function<void(Obstaculo*)> eliminarObstaculo, unsigned char nivel);
     void configurarSprite(unsigned char dir) override;
     void recibirDanio() override;
+    ~Enemigo();
 };
 
 #endif // ENEMIGO_H

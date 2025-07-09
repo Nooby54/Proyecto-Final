@@ -7,6 +7,7 @@
 #include "plataforma.h"
 #include "qgraphicsscene.h"
 #include <QMainWindow>
+#include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,12 +31,17 @@ private:
     QPixmap fondo;
     int ultimaXPlataforma = 0;
     std::array<Esfera*, 7> esferas;
+    QMediaPlayer* gestorSonido = nullptr;
+    QAudioOutput* audioOutput = nullptr;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void eliminarObstaculo(Obstaculo* p);
     void finalizarNivel();
+    void gestionarSonido(QString url, int loop);
+    void gestionarFondo(QString url);
+    void gestionarLabelsNiveles(bool modo);
 
 private slots:
     void on_nivel1_clicked();

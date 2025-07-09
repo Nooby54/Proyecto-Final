@@ -2,17 +2,18 @@
 #include <QPixmap>
 
 Esfera::Esfera(unsigned char id, qreal x, qreal y, Goku* goku, Plataforma* plataforma) : id(id), x(x), y(y), goku(goku), plataforma(plataforma){
-    hojaSprites.load(":/sprites/Esferas (64x64).png");
-    spriteActual = hojaSprites.copy((id-1)*64, 0, 64, 64);
-    spriteActual = spriteActual.scaled(32, 32, Qt::KeepAspectRatio);
+    hojaSprites.load(":/sprites/Esferas (32x32).png");
+    spriteActual = hojaSprites.copy((id-1)*32, 0, 32, 32);
     setPixmap(spriteActual);
-
     setPos(x, y);
     yOriginal = y;
 
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &Esfera::moverSenoidal);
     timerMovimiento->start(16);
+
+    efecto = new QSoundEffect(this);
+    efecto->setSource(QUrl::fromLocalFile(":/audios/EsferaRecolectada.wav"));
 }
 
 bool Esfera::getRecolectada() {
@@ -32,6 +33,7 @@ void Esfera::moverSenoidal() {
 
 void Esfera::mover(){
     if (!recolectada && goku->collidesWithItem(this)) {
+        efecto->play();
         recolectada = true;
         this->setVisible(false);
         timerMovimiento->stop();
@@ -42,10 +44,12 @@ void Esfera::mover(){
     if (plataforma) {
         x = plataforma->getX() + 60;
         if(plataforma->getReposicionado()){
-            y = plataforma->getY() - 40;
+            y = plataforma->getY() - 45;
             yOriginal = y;
             plataforma->setReposicionado(false);
         }
     }
     setPos(x, y);
 }
+
+Esfera::~Esfera(){}

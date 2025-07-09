@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>audios/Menu.mp3</file>
+        <file>audios/Nivel1.mp3</file>
+        <file>audios/Nivel2.mp3</file>
+        <file>audios/NivelGano.mp3</file>
+        <file>audios/NivelPerdio.mp3</file>
+        <file>audios/GokuDanio.wav</file>
+        <file>audios/PiccoloDanio.wav</file>
+        <file>audios/Kamehameha.wav</file>
+        <file>audios/EsferaRecolectada.wav</file>
+    </qresource>
+</RCC>

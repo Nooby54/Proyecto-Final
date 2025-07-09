@@ -1,8 +1,8 @@
 #include "mainwindow.h"
-#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QRandomGenerator>
 #include <QLabel>
+#include <QAudioOutput>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -17,12 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    // Fondo
-    fondo.load(":/sprites/backgrounds/menu.png");
-    fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
-    bgImage->setPos(0, 0);
-    ui->graphicsView->scene()->addItem(bgImage);
+    gestionarFondo(":/sprites/backgrounds/menu.png");
 
     // Diseño barras de vida
     ui->vidaEnemigo->setStyleSheet("QProgressBar{border: 2px solid black; background-color: rgba(255, 255, 255, 0); border-radius: 5px;} QProgressBar::chunk{background-color: purple;}");
@@ -33,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->iconoGoku->setPixmap(QPixmap(":/sprites/BarraDeVidaGoku (40x56).png"));
     ui->vidaGoku->setValue(255);
 
+    ui->labelEsferas->setPixmap(QPixmap(":/sprites/Esferas (32x32).png").copy(0,0,32,32));
 
     ui->nivel1->setStyleSheet("QPushButton {background-color: #E4A74C; color: white; border: 2px solid #FCB851; border-radius: 10px; padding: 10px; font: bold 14px 'Segoe UI';} QPushButton:hover {background-color: #FFC977;} QPushButton:pressed {background-color: #FCB851;}");
     ui->nivel2->setStyleSheet("QPushButton {background-color: #E4A74C; color: white; border: 2px solid #FCB851; border-radius: 10px; padding: 10px; font: bold 14px 'Segoe UI';} QPushButton:hover {background-color: #FFC977;} QPushButton:pressed {background-color: #FCB851;}");
@@ -50,6 +46,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     timerEscena = new QTimer(this);
     connect(timerEscena, &QTimer::timeout, this, &MainWindow::actualizar);
+
+    gestorSonido = new QMediaPlayer(this);
+    audioOutput = new QAudioOutput(this);
+    gestorSonido->setAudioOutput(audioOutput);
+    audioOutput->setVolume(0.6);
+    gestorSonido->setSource(QUrl("qrc:/audios/Menu.mp3"));
+    gestorSonido->setLoops(-1);
+    gestorSonido->play();
 }
 
 MainWindow::~MainWindow()
@@ -62,31 +66,18 @@ void MainWindow::on_nivel1_clicked()
     id = 1;
     contadorEsferas = 0;
     esferasRecolectadas = 0;
-    // Cambiando visibilidad
-    ui->vidaEnemigo->setVisible(false);
-    ui->iconoEnemigo->setVisible(false);
-    ui->vidaEnemigo->setValue(255);
-    ui->vidaGoku->setVisible(true);
-    ui->iconoGoku->setVisible(true);
-    ui->vidaGoku->setValue(255);
-    ui->nivel1->setVisible(false);
-    ui->nivel2->setVisible(false);
-    ui->teclas->setVisible(false);
-    ui->salir->setVisible(false);
-    ui->labelEsferas->setVisible(true);
-    ui->conteoEsferas->setVisible(true);
-    ui->menu->setVisible(false);
 
+    gestionarSonido("qrc:/audios/Nivel1.mp3",-1);
+    gestionarLabelsNiveles(true);
+
+    // Fondo dinamico
     fondo.load(":/sprites/backgrounds/level1.png");
     fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-
     QGraphicsPixmapItem *fondo1 = new QGraphicsPixmapItem(fondo);
     fondo = fondo.transformed(QTransform().scale(-1, 1));
     QGraphicsPixmapItem *fondo2 = new QGraphicsPixmapItem(fondo);
-
     fondo1->setPos(0, 0);
     fondo2->setPos(fondo1->pixmap().width(), 0);
-
     escena->addItem(fondo1);
     escena->addItem(fondo2);
 
@@ -105,9 +96,7 @@ void MainWindow::on_nivel1_clicked()
     }
 
     // Esferas
-    for(unsigned short int i = 0; i < 7; i++){
-        esferas[i] = nullptr;
-    }
+    std::fill(esferas.begin(),esferas.end(),nullptr);
 
     timerFondo = new QTimer(this);
     connect(timerFondo, &QTimer::timeout, this, [=]() {
@@ -176,27 +165,10 @@ void MainWindow::on_nivel1_clicked()
 
 void MainWindow::on_nivel2_clicked()
 {
-    // Cambiando visibilidad
-    ui->vidaEnemigo->setVisible(true);
-    ui->iconoEnemigo->setVisible(true);
-    ui->vidaEnemigo->setValue(255);
-    ui->vidaGoku->setVisible(true);
-    ui->iconoGoku->setVisible(true);
-    ui->vidaGoku->setValue(255);
-    ui->nivel1->setVisible(false);
-    ui->nivel2->setVisible(false);
-    ui->teclas->setVisible(false);
-    ui->salir->setVisible(false);
-    ui->labelEsferas->setVisible(false);
-    ui->conteoEsferas->setVisible(false);
-    ui->menu->setVisible(false);
-
     id = 2;
-    fondo.load(":/sprites/backgrounds/level2.png");
-    fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
-    bgImage->setPos(0, 0);
-    ui->graphicsView->scene()->addItem(bgImage);
+    gestionarSonido("qrc:/audios/Nivel2.mp3",-1);
+    gestionarFondo(":/sprites/backgrounds/level2.png");
+    gestionarLabelsNiveles(false);
 
     goku = new Goku(0, 450, ui->graphicsView, enemigos,id);
     escena->addItem(goku);
@@ -227,14 +199,14 @@ void MainWindow::actualizar(){
                 plataforma->setReposicionado(true);
 
                 if (contadorEsferas < 7 && (QRandomGenerator::global()->bounded(0, 100) < 40) && !plataforma->getTieneEsfera()) {
-                    esferas[contadorEsferas] = new Esfera(contadorEsferas + 1, plataforma->getX() + 60, plataforma->getY() - 4, goku, plataforma);
+                    esferas[contadorEsferas] = new Esfera(contadorEsferas + 1, plataforma->getX() + 60, plataforma->getY() - 45, goku, plataforma);
                     escena->addItem(esferas[contadorEsferas]);
                     plataforma->setTieneEsfera(true);
                     connect(esferas[contadorEsferas], &Esfera::esferaRecolectada, this, [=](){
                         esferasRecolectadas++;
                         ui->conteoEsferas->setText(QString::number(esferasRecolectadas));
                         if(esferasRecolectadas == 7){
-                            QTimer::singleShot(0, this, [this](){
+                            QTimer::singleShot(0, this, [=](){
                                 timerFondo->stop();
                                 gano();
                             });
@@ -257,7 +229,6 @@ void MainWindow::finalizarNivel() {
     if(timerEscena) timerEscena->stop();
     if(timerFondo) timerFondo->stop();
     if(timerObstaculos) timerObstaculos->stop();
-
 
     ui->vidaEnemigo->setVisible(false);
     ui->iconoEnemigo->setVisible(false);
@@ -323,12 +294,7 @@ void MainWindow::on_teclas_clicked()
     ui->conteoEsferas->setVisible(false);
     ui->menu->setVisible(true);
 
-    fondo.load(":/sprites/backgrounds/keys.png");
-    fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
-    bgImage->setPos(0, 0);
-    ui->graphicsView->scene()->addItem(bgImage);
-
+    gestionarFondo(":/sprites/backgrounds/keys.png");
     ui->menu->move(170,610);
 }
 
@@ -340,12 +306,8 @@ void MainWindow::on_salir_clicked()
 
 void MainWindow::on_menu_clicked()
 {
-    // Fondo
-    fondo.load(":/sprites/backgrounds/menu.png");
-    fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
-    bgImage->setPos(0, 0);
-    ui->graphicsView->scene()->addItem(bgImage);
+    gestionarSonido("qrc:/audios/Menu.mp3",-1);
+    gestionarFondo(":/sprites/backgrounds/menu.png");
 
     ui->vidaEnemigo->setVisible(false);
     ui->iconoEnemigo->setVisible(false);
@@ -363,22 +325,50 @@ void MainWindow::on_menu_clicked()
 void MainWindow::gano(){
     finalizarNivel();
 
-    fondo.load(":/sprites/backgrounds/gano.png");
-    fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
-    bgImage->setPos(0, 0);
-    ui->graphicsView->scene()->addItem(bgImage);
+    gestionarSonido("qrc:/audios/NivelGano.mp3",1);
+    gestionarFondo(":/sprites/backgrounds/gano.png");
+    ui->menu->move(170, 610);
     ui->menu->setVisible(true);
 }
 
 void MainWindow::perdio(){
     finalizarNivel();
 
-    fondo.load(":/sprites/backgrounds/perdio.png");
+    gestionarSonido("qrc:/audios/NivelPerdio.mp3",1);
+    gestionarFondo(":/sprites/backgrounds/perdio.png");
+
+    ui->menu->move(650,300);
+    ui->menu->setVisible(true);
+}
+
+void MainWindow::gestionarSonido(QString url, int loop){
+    if(gestorSonido->isPlaying()) gestorSonido->stop();
+    gestorSonido->setSource(QUrl(url));
+    gestorSonido->setLoops(loop);
+    gestorSonido->play();
+}
+
+void MainWindow::gestionarFondo(QString url){
+    fondo.load(url);
     fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QGraphicsPixmapItem *bgImage = new QGraphicsPixmapItem(fondo);
-    ui->menu->move(650,300);
     bgImage->setPos(0, 0);
     ui->graphicsView->scene()->addItem(bgImage);
-    ui->menu->setVisible(true);
+}
+
+void MainWindow::gestionarLabelsNiveles(bool modo){
+    ui->iconoGoku->setVisible(true);
+    ui->vidaGoku->setVisible(true);
+    ui->vidaEnemigo->setVisible(!modo);
+    ui->iconoEnemigo->setVisible(!modo);
+    ui->labelEsferas->setVisible(modo);
+    ui->conteoEsferas->setVisible(modo);
+    ui->nivel1->setVisible(false);
+    ui->nivel2->setVisible(false);
+    ui->teclas->setVisible(false);
+    ui->salir->setVisible(false);
+    ui->menu->setVisible(false);
+
+    ui->vidaEnemigo->setValue(255);
+    ui->vidaGoku->setValue(255);
 }

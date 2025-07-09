@@ -20,17 +20,19 @@ private:
     QPixmap hojaSprites, spriteActual;
     Goku* goku = nullptr;
     Plataforma* plataforma = nullptr;
+    QSoundEffect* efecto = nullptr;
 
 signals:
     void esferaRecolectada();
+
+private slots:
+    void moverSenoidal();
 
 public:
     Esfera(unsigned char id, qreal x, qreal y, Goku* goku, Plataforma* plataforma);
     bool getRecolectada();
     void mover();
-
-private slots:
-    void moverSenoidal();
+    ~Esfera();
 };
 
 #endif // ESFERA_H
