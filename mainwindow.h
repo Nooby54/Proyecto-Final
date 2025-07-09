@@ -39,6 +39,9 @@ public:
     ~MainWindow();
     void eliminarObstaculo(Obstaculo* p);
     void finalizarNivel();
+    void gestionarSonido(QString url, int loop);
+    void gestionarFondo(QString url);
+    void gestionarLabelsNiveles(bool modo);
 
 private slots:
     void on_nivel1_clicked();

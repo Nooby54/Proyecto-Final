@@ -169,7 +169,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Esferas Recolectadas:</string>
+     <string>icono esferas</string>
     </property>
    </widget>
    <widget class="QLabel" name="conteoEsferas">
