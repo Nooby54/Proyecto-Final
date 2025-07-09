@@ -5,7 +5,6 @@ Esfera::Esfera(unsigned char id, qreal x, qreal y, Goku* goku, Plataforma* plata
     hojaSprites.load(":/sprites/Esferas (32x32).png");
     spriteActual = hojaSprites.copy((id-1)*32, 0, 32, 32);
     setPixmap(spriteActual);
-
     setPos(x, y);
     yOriginal = y;
 
@@ -45,10 +44,12 @@ void Esfera::mover(){
     if (plataforma) {
         x = plataforma->getX() + 60;
         if(plataforma->getReposicionado()){
-            y = plataforma->getY() - 40;
+            y = plataforma->getY() - 45;
             yOriginal = y;
             plataforma->setReposicionado(false);
         }
     }
     setPos(x, y);
 }
+
+Esfera::~Esfera(){}

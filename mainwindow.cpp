@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->iconoGoku->setPixmap(QPixmap(":/sprites/BarraDeVidaGoku (40x56).png"));
     ui->vidaGoku->setValue(255);
 
+    ui->labelEsferas->setPixmap(QPixmap(":/sprites/Esferas (32x32).png").copy(0,0,32,32));
+
 
     ui->nivel1->setStyleSheet("QPushButton {background-color: #E4A74C; color: white; border: 2px solid #FCB851; border-radius: 10px; padding: 10px; font: bold 14px 'Segoe UI';} QPushButton:hover {background-color: #FFC977;} QPushButton:pressed {background-color: #FCB851;}");
     ui->nivel2->setStyleSheet("QPushButton {background-color: #E4A74C; color: white; border: 2px solid #FCB851; border-radius: 10px; padding: 10px; font: bold 14px 'Segoe UI';} QPushButton:hover {background-color: #FFC977;} QPushButton:pressed {background-color: #FCB851;}");
@@ -247,7 +249,7 @@ void MainWindow::actualizar(){
                 plataforma->setReposicionado(true);
 
                 if (contadorEsferas < 7 && (QRandomGenerator::global()->bounded(0, 100) < 40) && !plataforma->getTieneEsfera()) {
-                    esferas[contadorEsferas] = new Esfera(contadorEsferas + 1, plataforma->getX() + 60, plataforma->getY() - 4, goku, plataforma);
+                    esferas[contadorEsferas] = new Esfera(contadorEsferas + 1, plataforma->getX() + 60, plataforma->getY() - 45, goku, plataforma);
                     escena->addItem(esferas[contadorEsferas]);
                     plataforma->setTieneEsfera(true);
                     connect(esferas[contadorEsferas], &Esfera::esferaRecolectada, this, [=](){

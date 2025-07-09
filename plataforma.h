@@ -24,6 +24,7 @@ public:
     void setTieneEsfera(bool tieneEsfera);
     bool getReposicionado();
     void setReposicionado(bool reposicionado);
+    ~Plataforma();
 };
 
 #endif // PLATAFORMA_H

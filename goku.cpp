@@ -225,3 +225,5 @@ bool Goku::getDebeCaer(){
 void Goku::setDebeCaer(bool debeCaer){
     this->debeCaer = debeCaer;
 }
+
+Goku::~Goku(){}

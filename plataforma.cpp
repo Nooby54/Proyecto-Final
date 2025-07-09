@@ -44,3 +44,5 @@ bool Plataforma::getReposicionado(){
 void Plataforma::setReposicionado(bool reposicionado){
     this->reposicionado = reposicionado;
 }
+
+Plataforma::~Plataforma(){}

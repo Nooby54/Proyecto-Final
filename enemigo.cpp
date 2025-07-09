@@ -88,3 +88,5 @@ void Enemigo::disparar(){
     nuevo->setPos(x, y + (spriteAlto/2));
     nuevo->mover();
 }
+
+Enemigo::~Enemigo(){}
