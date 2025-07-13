@@ -33,6 +33,7 @@ private:
     std::array<Esfera*, 7> esferas;
     QMediaPlayer* gestorSonido = nullptr;
     QAudioOutput* audioOutput = nullptr;
+    QGraphicsPixmapItem *fondo1 = nullptr, *fondo2 = nullptr;
 
 public:
     MainWindow(QWidget *parent = nullptr);

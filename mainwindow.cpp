@@ -66,6 +66,7 @@ void MainWindow::on_nivel1_clicked()
     id = 1;
     contadorEsferas = 0;
     esferasRecolectadas = 0;
+    ui->conteoEsferas->setText(QString('0'));
 
     gestionarSonido("qrc:/audios/Nivel1.mp3",-1);
     gestionarLabelsNiveles(true);
@@ -73,9 +74,9 @@ void MainWindow::on_nivel1_clicked()
     // Fondo dinamico
     fondo.load(":/sprites/backgrounds/level1.png");
     fondo = fondo.scaled(1400, 730, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QGraphicsPixmapItem *fondo1 = new QGraphicsPixmapItem(fondo);
+    fondo1 = new QGraphicsPixmapItem(fondo);
     fondo = fondo.transformed(QTransform().scale(-1, 1));
-    QGraphicsPixmapItem *fondo2 = new QGraphicsPixmapItem(fondo);
+    fondo2 = new QGraphicsPixmapItem(fondo);
     fondo1->setPos(0, 0);
     fondo2->setPos(fondo1->pixmap().width(), 0);
     escena->addItem(fondo1);
@@ -96,7 +97,7 @@ void MainWindow::on_nivel1_clicked()
     }
 
     // Esferas
-    std::fill(esferas.begin(),esferas.end(),nullptr);
+    esferas.fill(nullptr);
 
     timerFondo = new QTimer(this);
     connect(timerFondo, &QTimer::timeout, this, [=]() {
@@ -227,8 +228,25 @@ void MainWindow::eliminarObstaculo(Obstaculo* p) {
 
 void MainWindow::finalizarNivel() {
     if(timerEscena) timerEscena->stop();
-    if(timerFondo) timerFondo->stop();
-    if(timerObstaculos) timerObstaculos->stop();
+    if(timerFondo){
+        timerFondo->stop();
+        delete timerFondo;
+        timerFondo = nullptr;
+    }
+    if(timerObstaculos){
+        timerObstaculos->stop();
+    delete timerObstaculos;
+    timerObstaculos = nullptr;
+    }
+
+    if(fondo1){
+        delete fondo1;
+        fondo1 = nullptr;
+    }
+    if(fondo2){
+        delete fondo2;
+        fondo2 = nullptr;
+    }
 
     ui->vidaEnemigo->setVisible(false);
     ui->iconoEnemigo->setVisible(false);
@@ -265,6 +283,8 @@ void MainWindow::finalizarNivel() {
             esfera->deleteLater();
         }
     }
+
+    esferas.fill(nullptr);
 
     for(auto plataforma: plataformas){
         if(plataforma && escena->items().contains(plataforma)){
